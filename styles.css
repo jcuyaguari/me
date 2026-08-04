@@ -1,0 +1,764 @@
+/* ==========================================================================
+   VARIABLES Y TEMA BASE (DARK / LIGHT)
+   ========================================================================== */
+@font-face {
+    font-family: "Geist Mono:SemiBold";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("https://static.figma.com/font/GeistMono_wght__1") format("woff2");
+}
+
+:root {
+    --bg-color: #030304;
+    --text-color: #ffffff;
+    --text-muted: #8e8e93;
+    --accent-neon: #7928ca;
+    --glass-bg: rgba(18, 18, 20, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --font-custom: "Geist Mono:SemiBold", monospace, sans-serif;
+    --transition-speed: 0.35s;
+}
+
+body.light-theme {
+    --bg-color: #f4f4f6;
+    --text-color: #0d0d0e;
+    --text-muted: #55555e;
+    --accent-neon: #0070f3;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-custom);
+    overflow-x: hidden;
+    position: relative;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* ==========================================================================
+   DESVANECIMIENTO DEL CONTENIDO AL HACER SCROLL (FADE EFFECT)
+   ========================================================================== */
+/* ==========================================================================
+   1. MÁSCARA DE DESVANECIMIENTO SUPERIOR (EVITA SOLAPAMIENTO CON NAVBAR)
+   ========================================================================== */
+.content-wrapper {
+    position: relative;
+    z-index: 10;
+    /* Crear una zona muerta transparente bajo el menú (primeros 110px) 
+       y desvanecer progresivamente el texto hasta los 180px */
+    mask-image: linear-gradient(
+        to bottom, 
+        transparent 0px, 
+        transparent 100px, 
+        rgba(0, 0, 0, 0.8) 150px, 
+        black 200px
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom, 
+        transparent 0px, 
+        transparent 100px, 
+        rgba(0, 0, 0, 0.8) 150px, 
+        black 200px
+    );
+}
+
+/* Ajuste del Hero para dar aire inicial respecto a la Navbar */
+.hero-section {
+    padding-top: 14rem; /* Eleva el margen inicial */
+    padding-bottom: 6rem;
+}
+
+/* Ajuste de Microtextos táctiles de la esquina para no estorbar el scroll */
+.text-top-left, .text-top-right {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   VIDEO BACKGROUND
+   ========================================================================== */
+.video-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 55vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 35%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 35%);
+    transition: opacity var(--transition-speed);
+}
+
+body.light-theme .video-container {
+    opacity: 0.25;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+}
+
+/* ==========================================================================
+   MARCOS Y ESQUINAS TÁCTICAS UI
+   ========================================================================== */
+.ui-corner {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.corner-top-left { top: 24px; left: 24px; border-top: 1.5px solid var(--text-muted); border-left: 1.5px solid var(--text-muted); }
+.corner-top-right { top: 24px; right: 24px; border-top: 1.5px solid var(--text-muted); border-right: 1.5px solid var(--text-muted); }
+.corner-bottom-left { bottom: 24px; left: 24px; border-bottom: 1.5px solid var(--text-muted); border-left: 1.5px solid var(--text-muted); }
+.corner-bottom-right { bottom: 24px; right: 24px; border-bottom: 1.5px solid var(--text-muted); border-right: 1.5px solid var(--text-muted); }
+
+.corner-text {
+    position: fixed;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    z-index: 90;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.text-top-left { top: 45px; left: 45px; }
+.text-top-right { top: 45px; right: 45px; }
+.text-bottom-right { bottom: 45px; right: 45px; text-align: right; }
+
+/* ==========================================================================
+   CURSOR PERSONALIZADO
+   ========================================================================== */
+.custom-cursor {
+    width: 8px;
+    height: 8px;
+    background: var(--text-color);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+}
+
+.custom-cursor-follower {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--text-color);
+    opacity: 0.5;
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+}
+
+/* ==========================================================================
+   NAVBAR & DISCRETO BOTÓN LIGHT/NIGHT
+   ========================================================================== */
+.navbar-wrapper {
+    position: fixed;
+    top: 1.8rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.5rem 0.6rem 0.5rem 1.4rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #c6c3b2;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #c6c3b2;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.8rem;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--text-color);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+/* Botón Light/Night minimalista en la Navbar */
+/* ==========================================================================
+   BOTÓN LIGHT/NIGHT ELEGANTE, DISCRETO Y POSICIONADO
+   ========================================================================== */
+.floating-theme-btn {
+    position: fixed;
+    top: 5.2rem; /* Se ubica holgadamente por debajo de los textos táctiles superiores */
+    right: 2.8rem;
+    z-index: 1001;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #030304;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 100px 50px;
+    color: var(--text-muted);
+    font-family: var(--font-custom);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+}
+
+.floating-theme-btn .theme-icon {
+    font-size: 0.75rem;
+    line-height: 1;
+    transition: transform 0.4s ease;
+}
+
+.floating-theme-btn .theme-label {
+    font-weight: 600;
+    opacity: 0.85;
+}
+
+.floating-theme-btn:hover {
+    color: var(--text-color);
+    border-color: rgba(9, 9, 9, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.floating-theme-btn:hover .theme-icon {
+    transform: rotate(15deg) scale(1.1);
+}
+
+/* Adaptación para Tema Claro */
+body.light-theme .floating-theme-btn {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .floating-theme-btn:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Ajuste Responsivo */
+@media (max-width: 992px) {
+    .floating-theme-btn {
+        top: 4.8rem;
+        right: 1.5rem;
+        padding: 5px 10px;
+    }
+}
+
+/* Ajuste Responsive para pantallas pequeñas */
+@media (max-width: 992px) {
+    .floating-theme-btn {
+        top: 1.5rem;
+        right: 1.5rem;
+    }
+}
+
+.btn-primary-pill {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-primary-pill:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 20px;
+    height: 2px;
+    background-color: var(--text-color);
+}
+
+/* ==========================================================================
+   SECCIONES GENERALES
+   ========================================================================== */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section {
+    min-height: 100vh;
+    padding: 8rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+.hero-section {
+    padding: 12rem 4rem 6rem 8rem;
+    justify-content: space-between;
+}
+
+.hero-left-content {
+    max-width: 620px;
+}
+
+.hero-title {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-hero-primary {
+    background: var(--text-color);
+    color: var(--bg-color);
+    padding: 0.85rem 1.8rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-hero-secondary {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    transition: color 0.3s ease;
+}
+
+.btn-hero-secondary:hover { color: var(--text-color); }
+
+.hero-footnote {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.bottom-metrics-bar {
+    display: flex;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.metric-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.8rem;
+}
+
+.metric-label { font-size: 0.72rem; color: var(--text-muted); }
+.metric-value { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.03em; }
+.metric-subtext { font-size: 0.65rem; color: var(--text-muted); }
+
+    /* ==========================================================================
+   SECCIÓN PROCESO CREATIVO - ESTILO EDITORIAL / TIPOGRÁFICO ASIMÉTRICO
+   ========================================================================== */
+.process-editorial-section {
+    padding: 10rem 0;
+    overflow: hidden;
+}
+
+.editorial-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.editorial-line {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* Tipografías de Gran Impacto */
+.edit-text {
+    font-size: clamp(3rem, 6.5vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.edit-text.dark {
+    color: var(--text-color);
+}
+
+.edit-text.muted {
+    color: #e5484d; /* Tono cálido de impacto similar al de la imagen */
+}
+
+.edit-text.italic {
+    font-family: serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #f76808; /* Acento cálido anaranjado */
+}
+
+.edit-icon {
+    font-size: 2.2rem;
+    color: #f76808;
+    animation: pulse-glow 2s infinite ease-in-out;
+}
+
+.edit-emoji {
+    font-size: 3rem;
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+/* Pastillas de Imágenes Flotantes Redondeadas (Pills) */
+.pill-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 54px;
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1.5px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    vertical-align: middle;
+    transform: rotate(-3deg);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pill-badge:hover {
+    transform: rotate(0deg) scale(1.08);
+    border-color: var(--text-color);
+}
+
+.pill-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-pill-2 {
+    transform: rotate(4deg);
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Ajuste Responsivo para Móviles */
+@media (max-width: 768px) {
+    .editorial-line {
+        gap: 0.6rem;
+    }
+    .pill-badge {
+        width: 100px;
+        height: 40px;
+    }
+}
+
+
+/* ==========================================================================
+   LETRAS & TYPING
+   ========================================================================== */
+.typing-container {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    border-radius: 16px;
+}
+
+.cursor-blink {
+    animation: blink 0.8s infinite;
+    color: var(--accent-neon);
+    margin-left: 4px;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* ==========================================================================
+   CONTACTO Y REDES SOCIALES (FONT AWESOME)
+   ========================================================================== */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.8rem;
+}
+
+.social-icon {
+    width: 60px;
+    height: 60px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.4rem; /* Tamaño optimizado para iconos Font Awesome */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-6px) scale(1.1);
+    border-color: var(--text-color);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* FOOTER */
+.footer {
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--glass-border);
+}
+
+/* ANIMACIONES DE APARICIÓN */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   WIDGET FLOTANTE DE SPOTIFY (ARRASTRABLE)
+   ========================================================================== */
+.spotify-floating-wrapper {
+    position: fixed;
+    bottom: 30px;
+    right: calc(50% - 60px);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    touch-action: none;
+}
+
+.spotify-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: var(--text-color);
+    padding: 6px 12px 6px 10px;
+    border-radius: 100px;
+    cursor: grab;
+    font-family: var(--font-custom);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    user-select: none;
+}
+
+.spotify-toggle-btn:active { cursor: grabbing; }
+
+.drag-handle {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-right: 2px;
+    opacity: 0.6;
+}
+
+.spotify-card {
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+    width: 320px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px) scale(0.95);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.spotify-floating-wrapper.is-open .spotify-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.spotify-floating-wrapper.is-open .spotify-toggle-btn {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .custom-cursor, .custom-cursor-follower { display: none; }
+    .corner-text { display: none; }
+    
+    .hero-section { padding: 9rem 2rem 4rem 2rem; }
+
+    .video-container {
+        width: 100vw;
+        opacity: 0.25;
+        mask-image: none;
+    }
+
+    .process-3d-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hamburger { display: flex; }
+
+    .nav-links {
+        position: fixed;
+        top: 80px;
+        right: -100%;
+        width: calc(100vw - 3rem);
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-links.active { right: 1.5rem; }
+
+    .bottom-metrics-bar { flex-wrap: wrap; }
+    .metric-card { width: 100%; }
+}

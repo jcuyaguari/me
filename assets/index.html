@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monttes | Songwriter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+
+    <!-- Background Video Flotante a la Derecha (Medusa / FX) -->
+    <div class="video-container">
+        <video autoplay loop muted playsinline aria-hidden="true" id="bg-video">
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260801_001207_ec20d138-aa45-4b2b-ab8c-bdc71607f240.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Marcos / Esquinas Tácticas UI -->
+    <div class="ui-corner corner-top-left"></div>
+    <div class="ui-corner corner-top-right"></div>
+    <div class="ui-corner corner-bottom-left"></div>
+    <div class="ui-corner corner-bottom-right"></div>
+
+    <!-- Microtextos Extremos (Top) -->
+    <div class="corner-text text-top-left">
+        JUAN CREATIVE STUDIO<br>
+        EST. 2026
+    </div>
+    <div class="corner-text text-top-right">
+        PART 01 / 06
+    </div>
+
+    <!-- Cursor Personalizado -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-follower" id="cursor-follower"></div>
+
+    <!-- Floating Pill Navbar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar">
+            <a href="#hero" class="nav-brand">
+                <span class="status-dot"></span>
+                <span class="brand-name">JUANC</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#hero" class="nav-link">Inicio</a>
+                <a href="#proceso" class="nav-link">Proceso</a>
+                <a href="#letras" class="nav-link">Letras</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#contacto" class="btn-primary-pill">Reservar Sesión</a>
+                
+                <button id="audio-toggle" class="theme-btn" aria-label="Reproducir Audio">
+                    <span class="audio-icon">🔇</span>
+                </button>
+
+                <button id="theme-toggle" class="theme-btn" aria-label="Cambiar tema">
+                    <span class="theme-icon">🌖</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Audio Ambiente -->
+    <audio id="ambient-audio" loop preload="none">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+    </audio>
+
+    <main class="content-wrapper">
+        <!-- 1. HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="hero-left-content">
+                <h1 class="hero-title animate-on-scroll" data-animation="fade-in">
+                    TU MÚSICA<br>MERECE SER<br>ESCUCHADA
+                </h1>
+                
+                <p class="hero-subtitle animate-on-scroll" data-animation="fade-in">
+                    Composición y dirección lírica para proyectos B2B, artistas y sellos independientes. Estructuras melódicas que traducen el silencio en impacto comercial.
+                </p>
+
+                <div class="hero-cta-group animate-on-scroll" data-animation="fade-in">
+                    <a href="#contacto" class="btn-hero-primary">Agendar llamada →</a>
+                    <a href="#proceso" class="btn-hero-secondary">VER CATÁLOGO</a>
+                </div>
+
+                <span class="hero-footnote">Modelos de colaboración flexibles. Sin contratos anuales.</span>
+            </div>
+
+            <!-- Dashboard / Cards Inferiores (Tal cual la imagen) -->
+            <div class="bottom-metrics-bar">
+                <div class="metric-card">
+                    <span class="metric-label">Reproducciones globales</span>
+                    <div class="metric-value-row">
+                        <span class="metric-value">+10M</span>
+                        <div class="avatar-stack">
+                            <span class="dot-active"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <span class="metric-label">Retención sonora</span>
+                    <div class="metric-value-row">
+                        <span class="metric-value">3.4x</span>
+                        <span class="metric-subtext">Promedio en listas top</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <span class="metric-label">Efectividad lírica</span>
+                    <div class="metric-value-row">
+                        <span class="metric-value">98.4%</span>
+                        <span class="metric-subtext">Aprobación directa</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Microtexto Extremo (Bottom Right) -->
+        <div class="corner-text text-bottom-right">
+            EMOCIÓN SOBRE RUIDO.<br>
+            PROFUNDIDAD SOBRE ALCANCE.<br>
+            ALMA SOBRE ALARDE.
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

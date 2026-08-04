@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan | Songwriter Studio</title>
+    <!-- CDN Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+
+    <!-- Background Video Flotante a la Derecha -->
+    <div class="video-container">
+        <video autoplay loop muted playsinline aria-hidden="true" id="bg-video">
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260801_001207_ec20d138-aa45-4b2b-ab8c-bdc71607f240.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Marcos / Esquinas Tácticas UI -->
+    <div class="ui-corner corner-top-left"></div>
+    <div class="ui-corner corner-top-right"></div>
+    <div class="ui-corner corner-bottom-left"></div>
+    <div class="ui-corner corner-bottom-right"></div>
+
+    <!-- Microtextos Extremos -->
+    <div class="corner-text text-top-left">
+        CREATIVE STUDIO<br>
+        EST. 2026
+    </div>
+    <div class="corner-text text-top-right">
+        PART 01 / 04
+    </div>
+
+    <!-- Cursor Personalizado -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-follower" id="cursor-follower"></div>
+
+    <!-- Header Floating Navbar (Integra el botón Light/Night integrado discretamente) -->
+    <!-- Botón Light/Night Posicionado sin tapar textos -->
+    <button id="theme-toggle" class="floating-theme-btn" aria-label="Cambiar tema">
+        <span class="theme-icon">🌙</span>
+    </button>
+
+    <!-- Header Floating Navbar -->
+    <header class="navbar-wrapper">
+        <nav class="navbar">
+            <a href="#hero" class="nav-brand">
+                <span class="status-dot"></span>
+                <span class="brand-name">JUAN</span>
+            </a>
+
+            <div class="nav-links" id="nav-links">
+                <a href="#hero" class="nav-link active">Inicio</a>
+                <a href="#proceso" class="nav-link">Proceso</a>
+                <a href="#letras" class="nav-link">Letras</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="https://www.instagram.com/@juancc.u" class="btn-primary-pill">Agendar</a>
+                
+                <button class="hamburger" id="hamburger" aria-label="Abrir Menú">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Audio Ambiente Aleatorio -->
+    <audio id="ambient-audio" preload="none"></audio>
+
+    <main class="content-wrapper">
+        
+        <!-- 1. HERO SECTION (INICIO) -->
+        <section id="hero" class="section hero-section">
+            <div class="hero-left-content">
+                <h1 class="hero-title animate-on-scroll">
+                    SONG<br>WRI<br>TTER
+                </h1>
+                
+                <p class="hero-subtitle animate-on-scroll">
+                    Escribo canciones y desarrollo web's ....
+                </p>
+                <p class="hero-subtitle animate-on-scroll">
+                
+                    "Passionate about the music industry and record production"
+                </p>
+
+                <div class="hero-cta-group animate-on-scroll">
+                    <a href="mailto:juan_nicoc@hotmail.com" class="btn-hero-primary">Mail →</a>
+                    <a href="#proceso" class="btn-hero-secondary">VER PROCESO</a>
+                </div>
+
+                <span class="hero-footnote">Modelos de colaboración flexibles. Sin contratos anuales.</span>
+            </div>
+
+            <!-- Dashboard / Metric Cards -->
+            <div class="bottom-metrics-bar animate-on-scroll">
+                <div class="metric-card">
+                    <span class="metric-label">Reproducciones globales</span>
+                    <div class="metric-value-row">
+                        <span class="metric-value">+1M</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <span class="metric-label">Retención sonora</span>
+                    <div class="metric-value-row">
+                        <span class="metric-value">3.4x</span>
+                        <span class="metric-subtext">Promedio en charts</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <span class="metric-label">Créditos </span>
+                    <div class="metric-value-row">
+                        <span class="metric-value">100x</span>
+                        <span class="metric-subtext">Songwriter</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <!-- SECCIÓN PROCESO CREATIVO 3D DE ALTO IMPACTO -->
+        <section id="proceso" class="section process-editorial-section">
+            <div class="container">
+                <div class="editorial-wrapper">
+                    
+                    <!-- Línea 1 -->
+                    <div class="editorial-line animate-on-scroll">
+                        <span class="edit-text dark">Música</span>
+                        <span class="edit-text italic accent">orgánica</span>
+                        <div class="pill-badge img-pill-1">
+                            <img src="https://images.unsplash.com/photo-1583738510073-e29e1753036c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Estudio de composición" />
+                        </div>
+                    </div>
+
+                    <!-- Línea 2 -->
+                    <div class="editorial-line animate-on-scroll">
+                        <span class="edit-text dark">sin</span>
+                        <span class="edit-icon">✦</span>
+                        <span class="edit-text dark">ataduras</span>
+                        <div class="pill-badge img-pill-2">
+                            <img src="https://images.unsplash.com/photo-1525362081669-2b476bb628c3?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Producción de audio" />
+                        </div>
+                    </div>
+
+                    <!-- Línea 3 -->
+                    <div class="editorial-line animate-on-scroll">
+                        <span class="edit-text muted">comerciales.</span>
+                        <span class="edit-emoji">🔥</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. LETRAS & FRASES -->
+        <section id="letras" class="section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Versos & Créditos</h2>
+                <div class="typing-container animate-on-scroll">
+                    <span class="typing-text" id="typing-text"></span>
+                    <span class="cursor-blink">|</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CONTACTO Y REDES SOCIALES (FONT AWESOME) -->
+        <section id="contacto" class="section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Conectar</h2>
+                <div class="social-links animate-on-scroll">
+                    <!-- Spotify -->
+                    <a href="https://open.spotify.com/user/juankz24?si=3075899adc7e4e14" target="_blank" rel="noopener" class="social-icon" aria-label="Spotify">
+                        <i class="fa-brands fa-spotify"></i>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/juancc.u/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <!-- YouTube -->
+                    <a href="#" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Widget Flotante de Spotify -->
+        <div class="spotify-floating-wrapper" id="spotify-widget">
+            <button class="spotify-toggle-btn" id="spotify-toggle" aria-label="Abrir reproductor de Spotify">
+                <span class="drag-handle" title="Arrastrar">⋮⋮</span>
+                <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.899 4.56-1.021 8.52-.6 11.64 1.32.42.18.48.66.301 1.019zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.18-.1.2-1.02-.42-.84-.18-.6-.84-.42-1.02.6 4.26-1.32 11.28-1.08 15.6 1.5.42.24.6.84.3 1.2-.24.42-.84.6-1.2.3z"/>
+                </svg>
+                <span class="spotify-btn-text">Spotify</span>
+            </button>
+
+            <div class="spotify-card">
+                <div class="spotify-card-header">
+                    <!-- <span class="spotify-card-title">MY SELECTION</span> -->
+                    <button class="spotify-close-btn" id="spotify-close" aria-label="Minimizar">✕</button>
+                </div>
+                <iframe 
+                    data-testid="embed-iframe" 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/playlist/22cDn8Z4ClfBMBU1RwWfDn?utm_source=generator&si=44ccc80ef14b4570&theme=0" 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Microtexto Extremo Inferior -->
+        <div class="corner-text text-bottom-right">
+            EMOCIÓN SOBRE RUIDO.<br>
+            PROFUNDIDAD SOBRE ALCANCE.<br>
+            ALMA SOBRE ALARDE.
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 JUANC CREATIVE STUDIO. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
