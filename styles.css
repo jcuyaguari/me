@@ -766,6 +766,9 @@ body.light-theme .floating-theme-btn:hover {
 /* ==========================================================================
    CORRECCIÓN DE MENÚ DESPLEGABLE EN MÓVILES
    ========================================================================== */
+/* ==========================================================================
+   CORRECCIÓN DE MENÚ DESPLEGABLE EN MÓVILES
+   ========================================================================== */
 @media (max-width: 768px) {
 
     /* 1. Ocultar el menú desplegable en móvil por defecto */
