@@ -762,3 +762,58 @@ body.light-theme .floating-theme-btn:hover {
     .bottom-metrics-bar { flex-wrap: wrap; }
     .metric-card { width: 100%; }
 }
+
+/* ==========================================================================
+   CORRECCIÓN DE MENÚ DESPLEGABLE EN MÓVILES
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* 1. Ocultar el menú desplegable en móvil por defecto */
+    .nav-links, 
+    .nav-menu,
+    nav ul {
+        display: none; /* Inicia oculto */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.95); /* Fondo oscuro elegante */
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    /* 2. Estado Activo (Cuando el usuario presiona el botón hamburguesa) */
+    .nav-links.active,
+    .nav-menu.active,
+    nav ul.active {
+        display: flex !important;
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Estilo de los links dentro del menú abierto */
+    .nav-links a, 
+    .nav-menu a,
+    nav ul a {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: #ffffff !important;
+    }
+
+    /* Ajuste de posición del botón de modo claro/oscuro para que no se choque */
+    .floating-theme-btn {
+        top: 1.2rem;
+        right: 1rem;
+        z-index: 1002; /* Siempre encima del header */
+    }
+}

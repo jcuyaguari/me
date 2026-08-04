@@ -293,6 +293,29 @@ function init3DTiltEffect() {
     });
 }
 
+
+/* CONTROL DEL MENÚ MÓVIL */
+document.addEventListener('DOMContentLoaded', () => {
+    // Detectamos el botón hamburguesa y la lista del menú
+    const menuToggle = document.querySelector('.menu-toggle') || document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-links') || document.querySelector('.nav-menu') || document.querySelector('nav ul');
+
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('open');
+        });
+
+        // Cerrar el menú automáticamente al hacer clic en cualquier enlace
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                if (menuToggle) menuToggle.classList.remove('open');
+            });
+        });
+    }
+});
+
 // Asegúrate de llamarla en el DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     // ... tus otras funciones ...
