@@ -295,6 +295,7 @@ function init3DTiltEffect() {
 
 
 /* CONTROL DEL MENÚ MÓVIL */
+/* CONTROL DEL MENÚ MÓVIL */
 document.addEventListener('DOMContentLoaded', () => {
     // Detectamos el botón hamburguesa y la lista del menú
     const menuToggle = document.querySelector('.menu-toggle') || document.querySelector('.hamburger');
