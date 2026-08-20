@@ -32,7 +32,7 @@ function initThemeToggle() {
         } else {
             document.body.classList.remove('light-theme');
             document.body.classList.add('dark-theme');
-            if (themeIcon) themeIcon.textContent = '💡';
+            if (themeIcon) themeIcon.textContent = '🌙';
             localStorage.setItem('theme', 'dark');
         }
     });
@@ -56,7 +56,7 @@ function initMobileNav() {
     }
 }
 
-/* 3. NAVEGACIÓN Y RESALTADO DE SECCIÓN ACTIVA AL HACER SCROLL */
+/* 3. NAVEGACIÓN Y RESALTADO DE SECCIÓN ACTIVA */
 function initSmoothNavigation() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -138,7 +138,7 @@ function initTypingEffect() {
     type();
 }
 
-/* 6. CURSOR PERSONALIZADO */
+/* 6. CURSOR PERSONALIZADO (DESACTIVADO EN DISPOSITIVOS TÁCTILES) */
 function initCustomCursor() {
     const cursor = document.getElementById('cursor');
     const follower = document.getElementById('cursor-follower');
@@ -156,7 +156,7 @@ function initCustomCursor() {
     });
 }
 
-/* 7. LÓGICA DE ARRASTRE PARA SPOTIFY */
+/* 7. LÓGICA DE SPOTIFY FLOTANTE */
 function initDraggableSpotify() {
     const widget = document.getElementById('spotify-widget');
     const toggleBtn = document.getElementById('spotify-toggle');
@@ -164,83 +164,16 @@ function initDraggableSpotify() {
 
     if (!widget || !toggleBtn || !closeBtn) return;
 
-    let isDragging = false;
-    let hasDragged = false;
-    let startX, startY, initialLeft, initialTop;
-
-    toggleBtn.addEventListener('click', (e) => {
-        if (!hasDragged) {
-            widget.classList.add('is-open');
-        }
-        hasDragged = false;
+    toggleBtn.addEventListener('click', () => {
+        widget.classList.add('is-open');
     });
 
     closeBtn.addEventListener('click', () => {
         widget.classList.remove('is-open');
     });
-
-    const startDrag = (e) => {
-        if (widget.classList.contains('is-open')) return;
-
-        isDragging = true;
-        hasDragged = false;
-
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-
-        startX = clientX;
-        startY = clientY;
-
-        const rect = widget.getBoundingClientRect();
-        initialLeft = rect.left;
-        initialTop = rect.top;
-
-        document.addEventListener('mousemove', onDrag);
-        document.addEventListener('touchmove', onDrag, { passive: false });
-        document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('touchend', stopDrag);
-    };
-
-    const onDrag = (e) => {
-        if (!isDragging) return;
-
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-
-        const deltaX = clientX - startX;
-        const deltaY = clientY - startY;
-
-        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
-            hasDragged = true;
-        }
-
-        let newLeft = initialLeft + deltaX;
-        let newTop = initialTop + deltaY;
-
-        const maxLeft = window.innerWidth - widget.offsetWidth - 20;
-        const maxTop = window.innerHeight - widget.offsetHeight - 20;
-
-        newLeft = Math.max(20, Math.min(newLeft, maxLeft));
-        newTop = Math.max(20, Math.min(newTop, maxTop));
-
-        widget.style.left = `${newLeft}px`;
-        widget.style.top = `${newTop}px`;
-        widget.style.bottom = 'auto';
-    };
-
-    const stopDrag = () => {
-        isDragging = false;
-        document.removeEventListener('mousemove', onDrag);
-        document.removeEventListener('touchmove', onDrag);
-        document.removeEventListener('mouseup', stopDrag);
-        document.removeEventListener('touchend', stopDrag);
-    };
-
-    toggleBtn.addEventListener('mousedown', startDrag);
-    toggleBtn.addEventListener('touchstart', startDrag, { passive: false });
 }
 
-/* 8. EFECTO DINÁMICO DE INCLINACIÓN 3D SEGUIDOR DE CURSOR */
+/* 8. EFECTO DINÁMICO DE INCLINACIÓN 3D (DESACTIVADO EN PANTALLAS PEQUEÑAS) */
 function init3DTiltEffect() {
     const cards = document.querySelectorAll('.card-3d-inner');
     if (window.innerWidth < 992) return;
@@ -265,60 +198,3 @@ function init3DTiltEffect() {
         });
     });
 }
-
-/* EFECTO DINÁMICO DE INCLINACIÓN 3D SEGUIDOR DE CURSOR */
-function init3DTiltEffect() {
-    const cards = document.querySelectorAll('.card-3d-inner');
-    if (window.innerWidth < 992) return;
-
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            // Grados de rotación dinámicos
-            const rotateX = ((y - centerY) / centerY) * -14;
-            const rotateY = ((x - centerX) / centerX) * 14;
-
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(15px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateX(0deg) rotateY(0deg) translateZ(0px)`;
-        });
-    });
-}
-
-
-/* CONTROL DEL MENÚ MÓVIL */
-/* CONTROL DEL MENÚ MÓVIL */
-document.addEventListener('DOMContentLoaded', () => {
-    // Detectamos el botón hamburguesa y la lista del menú
-    const menuToggle = document.querySelector('.menu-toggle') || document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-links') || document.querySelector('.nav-menu') || document.querySelector('nav ul');
-
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuToggle.classList.toggle('open');
-        });
-
-        // Cerrar el menú automáticamente al hacer clic en cualquier enlace
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                if (menuToggle) menuToggle.classList.remove('open');
-            });
-        });
-    }
-});
-
-// Asegúrate de llamarla en el DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    // ... tus otras funciones ...
-    init3DTiltEffect();
-});

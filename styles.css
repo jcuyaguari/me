@@ -49,42 +49,49 @@ body {
 }
 
 /* ==========================================================================
-   DESVANECIMIENTO DEL CONTENIDO AL HACER SCROLL (FADE EFFECT)
-   ========================================================================== */
-/* ==========================================================================
-   1. MÁSCARA DE DESVANECIMIENTO SUPERIOR (EVITA SOLAPAMIENTO CON NAVBAR)
+   MÁSCARA DE DESVANECIMIENTO Y LAYOUT GENERAL
    ========================================================================== */
 .content-wrapper {
     position: relative;
     z-index: 10;
-    /* Crear una zona muerta transparente bajo el menú (primeros 110px) 
-       y desvanecer progresivamente el texto hasta los 180px */
     mask-image: linear-gradient(
         to bottom, 
         transparent 0px, 
-        transparent 100px, 
-        rgba(0, 0, 0, 0.8) 150px, 
-        black 200px
+        transparent 80px, 
+        rgba(0, 0, 0, 0.8) 130px, 
+        black 180px
     );
     -webkit-mask-image: linear-gradient(
         to bottom, 
         transparent 0px, 
-        transparent 100px, 
-        rgba(0, 0, 0, 0.8) 150px, 
-        black 200px
+        transparent 80px, 
+        rgba(0, 0, 0, 0.8) 130px, 
+        black 180px
     );
 }
 
-/* Ajuste del Hero para dar aire inicial respecto a la Navbar */
-.hero-section {
-    padding-top: 14rem; /* Eleva el margen inicial */
-    padding-bottom: 6rem;
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
 }
 
-/* Ajuste de Microtextos táctiles de la esquina para no estorbar el scroll */
-.text-top-left, .text-top-right {
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
+.section {
+    min-height: 100vh;
+    padding: 6rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.section-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    letter-spacing: -0.02em;
 }
 
 /* ==========================================================================
@@ -126,25 +133,26 @@ body.light-theme .video-container {
     z-index: 100;
 }
 
-.corner-top-left { top: 24px; left: 24px; border-top: 1.5px solid var(--text-muted); border-left: 1.5px solid var(--text-muted); }
-.corner-top-right { top: 24px; right: 24px; border-top: 1.5px solid var(--text-muted); border-right: 1.5px solid var(--text-muted); }
-.corner-bottom-left { bottom: 24px; left: 24px; border-bottom: 1.5px solid var(--text-muted); border-left: 1.5px solid var(--text-muted); }
-.corner-bottom-right { bottom: 24px; right: 24px; border-bottom: 1.5px solid var(--text-muted); border-right: 1.5px solid var(--text-muted); }
+.corner-top-left { top: 20px; left: 20px; border-top: 1.5px solid var(--text-muted); border-left: 1.5px solid var(--text-muted); }
+.corner-top-right { top: 20px; right: 20px; border-top: 1.5px solid var(--text-muted); border-right: 1.5px solid var(--text-muted); }
+.corner-bottom-left { bottom: 20px; left: 20px; border-bottom: 1.5px solid var(--text-muted); border-left: 1.5px solid var(--text-muted); }
+.corner-bottom-right { bottom: 20px; right: 20px; border-bottom: 1.5px solid var(--text-muted); border-right: 1.5px solid var(--text-muted); }
 
 .corner-text {
     position: fixed;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     letter-spacing: 0.12em;
     color: var(--text-muted);
     text-transform: uppercase;
     z-index: 90;
     line-height: 1.4;
     pointer-events: none;
+    opacity: 0.6;
 }
 
-.text-top-left { top: 45px; left: 45px; }
-.text-top-right { top: 45px; right: 45px; }
-.text-bottom-right { bottom: 45px; right: 45px; text-align: right; }
+.text-top-left { top: 38px; left: 38px; }
+.text-top-right { top: 38px; right: 38px; }
+.text-bottom-right { bottom: 38px; right: 38px; text-align: right; }
 
 /* ==========================================================================
    CURSOR PERSONALIZADO
@@ -172,27 +180,29 @@ body.light-theme .video-container {
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform 0.1s ease-out;
 }
 
 /* ==========================================================================
-   NAVBAR & DISCRETO BOTÓN LIGHT/NIGHT
+   NAVBAR & NAVEGACIÓN
    ========================================================================== */
 .navbar-wrapper {
     position: fixed;
-    top: 1.8rem;
+    top: 1.5rem;
     left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     z-index: 1000;
+    padding: 0 1rem;
 }
 
 .navbar {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    padding: 0.5rem 0.6rem 0.5rem 1.4rem;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 850px;
+    padding: 0.5rem 0.8rem 0.5rem 1.4rem;
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -241,91 +251,14 @@ body.light-theme .video-container {
     gap: 0.8rem;
 }
 
-/* Botón Light/Night minimalista en la Navbar */
-/* ==========================================================================
-   BOTÓN LIGHT/NIGHT ELEGANTE, DISCRETO Y POSICIONADO
-   ========================================================================== */
-.floating-theme-btn {
-    position: fixed;
-    top: 5.2rem; /* Se ubica holgadamente por debajo de los textos táctiles superiores */
-    right: 2.8rem;
-    z-index: 1001;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    background: #030304;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 100px 50px;
-    color: var(--text-muted);
-    font-family: var(--font-custom);
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    user-select: none;
-}
-
-.floating-theme-btn .theme-icon {
-    font-size: 0.75rem;
-    line-height: 1;
-    transition: transform 0.4s ease;
-}
-
-.floating-theme-btn .theme-label {
-    font-weight: 600;
-    opacity: 0.85;
-}
-
-.floating-theme-btn:hover {
-    color: var(--text-color);
-    border-color: rgba(9, 9, 9, 0.3);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 0, 0, 0.05);
-    transform: translateY(-2px);
-}
-
-.floating-theme-btn:hover .theme-icon {
-    transform: rotate(15deg) scale(1.1);
-}
-
-/* Adaptación para Tema Claro */
-body.light-theme .floating-theme-btn {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-body.light-theme .floating-theme-btn:hover {
-    border-color: rgba(0, 0, 0, 0.25);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-/* Ajuste Responsivo */
-@media (max-width: 992px) {
-    .floating-theme-btn {
-        top: 4.8rem;
-        right: 1.5rem;
-        padding: 5px 10px;
-    }
-}
-
-/* Ajuste Responsive para pantallas pequeñas */
-@media (max-width: 992px) {
-    .floating-theme-btn {
-        top: 1.5rem;
-        right: 1.5rem;
-    }
-}
-
 .btn-primary-pill {
     background-color: var(--text-color);
     color: var(--bg-color);
     text-decoration: none;
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 1.1rem;
     border-radius: 100px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 600;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -337,49 +270,61 @@ body.light-theme .floating-theme-btn:hover {
 .hamburger {
     display: none;
     flex-direction: column;
+    justify-content: center;
     gap: 5px;
     background: none;
     border: none;
     cursor: pointer;
+    padding: 5px;
+    z-index: 1001;
 }
 
 .hamburger span {
-    width: 20px;
+    width: 22px;
     height: 2px;
     background-color: var(--text-color);
+    transition: all 0.3s ease;
 }
 
-/* ==========================================================================
-   SECCIONES GENERALES
-   ========================================================================== */
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-.section {
-    min-height: 100vh;
-    padding: 8rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-}
-
-.section-title {
-    font-size: clamp(2rem, 4vw, 3rem);
+/* Botón flotante Light/Night */
+.floating-theme-btn {
+    position: fixed;
+    top: 5rem;
+    right: 2.5rem;
+    z-index: 1001;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--bg-color);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 100px;
+    color: var(--text-muted);
+    font-family: var(--font-custom);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 3rem;
-    text-align: center;
-    letter-spacing: -0.02em;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: all 0.35s ease;
+    user-select: none;
+}
+
+.floating-theme-btn:hover {
+    color: var(--text-color);
+    transform: translateY(-2px);
 }
 
 /* ==========================================================================
    HERO SECTION
    ========================================================================== */
 .hero-section {
-    padding: 12rem 4rem 6rem 8rem;
+    padding-top: 11rem;
+    padding-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
@@ -388,26 +333,26 @@ body.light-theme .floating-theme-btn:hover {
 }
 
 .hero-title {
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
     line-height: 1.05;
     font-weight: 600;
     letter-spacing: -0.04em;
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
     text-transform: uppercase;
 }
 
 .hero-subtitle {
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
     color: var(--text-muted);
     line-height: 1.6;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
 }
 
 .hero-cta-group {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin: 2rem 0 1.5rem 0;
 }
 
 .btn-hero-primary {
@@ -433,14 +378,16 @@ body.light-theme .floating-theme-btn:hover {
 
 .hero-footnote {
     display: block;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
 }
 
 .bottom-metrics-bar {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
-    margin-top: 3rem;
+    margin-top: 3.5rem;
+    width: 100%;
 }
 
 .metric-card {
@@ -448,34 +395,31 @@ body.light-theme .floating-theme-btn:hover {
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(12px);
     border-radius: 14px;
-    padding: 1.2rem 1.5rem;
-    min-width: 180px;
+    padding: 1.2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 0.8rem;
 }
 
-.metric-label { font-size: 0.72rem; color: var(--text-muted); }
+.metric-label { font-size: 0.7rem; color: var(--text-muted); }
 .metric-value { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.03em; }
 .metric-subtext { font-size: 0.65rem; color: var(--text-muted); }
 
-    /* ==========================================================================
-   SECCIÓN PROCESO CREATIVO - ESTILO EDITORIAL / TIPOGRÁFICO ASIMÉTRICO
+/* ==========================================================================
+   PROCESO CREATIVO
    ========================================================================== */
 .process-editorial-section {
-    padding: 10rem 0;
-    overflow: hidden;
+    padding: 6rem 0;
 }
 
 .editorial-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.8rem;
+    gap: 1rem;
     max-width: 900px;
     margin: 0 auto;
-    position: relative;
 }
 
 .editorial-line {
@@ -483,110 +427,72 @@ body.light-theme .floating-theme-btn:hover {
     align-items: center;
     gap: 1.2rem;
     flex-wrap: wrap;
-    position: relative;
 }
 
-/* Tipografías de Gran Impacto */
 .edit-text {
-    font-size: clamp(3rem, 6.5vw, 5.5rem);
+    font-size: clamp(2.2rem, 5.5vw, 5rem);
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    transition: color 0.3s ease;
 }
 
-.edit-text.dark {
-    color: var(--text-color);
-}
-
-.edit-text.muted {
-    color: #e5484d; /* Tono cálido de impacto similar al de la imagen */
-}
-
+.edit-text.dark { color: var(--text-color); }
+.edit-text.muted { color: #e5484d; }
 .edit-text.italic {
     font-family: serif;
     font-style: italic;
     font-weight: 400;
-    color: #f76808; /* Acento cálido anaranjado */
+    color: #f76808;
 }
 
 .edit-icon {
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #f76808;
     animation: pulse-glow 2s infinite ease-in-out;
 }
 
-.edit-emoji {
-    font-size: 3rem;
-    display: inline-flex;
-    vertical-align: middle;
-}
+.edit-emoji { font-size: 2.5rem; }
 
-/* Pastillas de Imágenes Flotantes Redondeadas (Pills) */
 .pill-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 140px;
-    height: 54px;
+    width: 130px;
+    height: 50px;
     border-radius: 100px;
     overflow: hidden;
     border: 1.5px solid var(--glass-border);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    vertical-align: middle;
     transform: rotate(-3deg);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s ease;
 }
 
-.pill-badge:hover {
-    transform: rotate(0deg) scale(1.08);
-    border-color: var(--text-color);
-}
-
-.pill-badge img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.img-pill-2 {
-    transform: rotate(4deg);
-}
+.pill-badge:hover { transform: rotate(0deg) scale(1.05); }
+.pill-badge img { width: 100%; height: 100%; object-fit: cover; }
+.img-pill-2 { transform: rotate(4deg); }
 
 @keyframes pulse-glow {
     0%, 100% { opacity: 0.8; transform: scale(1); }
     50% { opacity: 1; transform: scale(1.15); }
 }
 
-/* Ajuste Responsivo para Móviles */
-@media (max-width: 768px) {
-    .editorial-line {
-        gap: 0.6rem;
-    }
-    .pill-badge {
-        width: 100px;
-        height: 40px;
-    }
-}
-
-
 /* ==========================================================================
    LETRAS & TYPING
    ========================================================================== */
 .typing-container {
-    min-height: 180px;
+    min-height: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    font-size: clamp(1.1rem, 2.5vw, 2rem);
     text-align: center;
     padding: 2rem;
     border: 1px solid var(--glass-border);
     background: var(--glass-bg);
     border-radius: 16px;
+    backdrop-filter: blur(10px);
 }
 
 .cursor-blink {
@@ -598,17 +504,18 @@ body.light-theme .floating-theme-btn:hover {
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
 /* ==========================================================================
-   CONTACTO Y REDES SOCIALES (FONT AWESOME)
+   CONTACTO & REDES
    ========================================================================== */
 .social-links {
     display: flex;
     justify-content: center;
-    gap: 1.8rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .social-icon {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -617,48 +524,34 @@ body.light-theme .floating-theme-btn:hover {
     border: 1px solid var(--glass-border);
     color: var(--text-color);
     text-decoration: none;
-    font-size: 1.4rem; /* Tamaño optimizado para iconos Font Awesome */
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.3rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .social-icon:hover {
-    transform: translateY(-6px) scale(1.1);
+    transform: translateY(-5px);
     border-color: var(--text-color);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* FOOTER */
 .footer {
     padding: 2rem;
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
     border-top: 1px solid var(--glass-border);
 }
 
-/* ANIMACIONES DE APARICIÓN */
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* ==========================================================================
-   WIDGET FLOTANTE DE SPOTIFY (ARRASTRABLE)
+   SPOTIFY WIDGET FLOTANTE
    ========================================================================== */
 .spotify-floating-wrapper {
     position: fixed;
-    bottom: 30px;
-    right: calc(50% - 60px);
+    bottom: 25px;
+    right: 25px;
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     touch-action: none;
 }
 
@@ -671,30 +564,23 @@ body.light-theme .floating-theme-btn:hover {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     color: var(--text-color);
-    padding: 6px 12px 6px 10px;
+    padding: 8px 14px;
     border-radius: 100px;
     cursor: grab;
     font-family: var(--font-custom);
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     letter-spacing: 0.08em;
-    transition: border-color 0.3s ease, background 0.3s ease;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     user-select: none;
 }
 
-.spotify-toggle-btn:active { cursor: grabbing; }
-
-.drag-handle {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    margin-right: 2px;
-    opacity: 0.6;
-}
+.drag-handle { color: var(--text-muted); opacity: 0.6; }
+.spotify-icon { width: 16px; height: 16px; }
 
 .spotify-card {
     position: absolute;
-    bottom: 45px;
-    left: 0;
+    bottom: 50px;
+    right: 0;
     width: 320px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -706,8 +592,22 @@ body.light-theme .floating-theme-btn:hover {
     opacity: 0;
     visibility: hidden;
     transform: translateY(15px) scale(0.95);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.35s ease;
     pointer-events: none;
+}
+
+.spotify-card-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6px;
+}
+
+.spotify-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .spotify-floating-wrapper.is-open .spotify-card {
@@ -722,101 +622,99 @@ body.light-theme .floating-theme-btn:hover {
     pointer-events: none;
 }
 
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .custom-cursor, .custom-cursor-follower { display: none; }
-    .corner-text { display: none; }
-    
-    .hero-section { padding: 9rem 2rem 4rem 2rem; }
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
 
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES - RESPONSIVE DESIGN (SIN BOOTSTRAP)
+   ========================================================================== */
+
+/* 1. Laptops / PANTALLAS MEDIANAS (< 992px) */
+@media (max-width: 992px) {
+    .custom-cursor, .custom-cursor-follower, .corner-text { display: none; }
+    
     .video-container {
         width: 100vw;
-        opacity: 0.25;
+        opacity: 0.2;
         mask-image: none;
-    }
-
-    .process-3d-grid {
-        grid-template-columns: 1fr;
+        -webkit-mask-image: none;
     }
 
     .hamburger { display: flex; }
 
     .nav-links {
         position: fixed;
-        top: 80px;
-        right: -100%;
-        width: calc(100vw - 3rem);
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 2rem;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .nav-links.active { right: 1.5rem; }
-
-    .bottom-metrics-bar { flex-wrap: wrap; }
-    .metric-card { width: 100%; }
-}
-
-/* ==========================================================================
-   CORRECCIÓN DE MENÚ DESPLEGABLE EN MÓVILES
-   ========================================================================== */
-/* ==========================================================================
-   CORRECCIÓN DE MENÚ DESPLEGABLE EN MÓVILES
-   ========================================================================== */
-@media (max-width: 768px) {
-
-    /* 1. Ocultar el menú desplegable en móvil por defecto */
-    .nav-links, 
-    .nav-menu,
-    nav ul {
-        display: none; /* Inicia oculto */
-        position: fixed;
         top: 0;
-        left: 0;
+        right: -100%;
         width: 100vw;
         height: 100vh;
-        background: rgba(10, 10, 10, 0.95); /* Fondo oscuro elegante */
+        background: rgba(3, 3, 4, 0.96);
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 2rem;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
     }
 
-    /* 2. Estado Activo (Cuando el usuario presiona el botón hamburguesa) */
-    .nav-links.active,
-    .nav-menu.active,
-    nav ul.active {
-        display: flex !important;
-        opacity: 1;
-        pointer-events: all;
-    }
+    .nav-links.active { right: 0; }
+    .nav-links .nav-link { font-size: 1.4rem; color: #ffffff; }
 
-    /* Estilo de los links dentro del menú abierto */
-    .nav-links a, 
-    .nav-menu a,
-    nav ul a {
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        color: #ffffff !important;
-    }
-
-    /* Ajuste de posición del botón de modo claro/oscuro para que no se choque */
     .floating-theme-btn {
-        top: 1.2rem;
-        right: 1rem;
-        z-index: 1002; /* Siempre encima del header */
+        top: 1.5rem;
+        right: 4.5rem;
+    }
+}
+
+/* 2. TABLETS (< 768px) */
+@media (max-width: 768px) {
+    .hero-section {
+        padding-top: 8rem;
+        padding-bottom: 3rem;
+    }
+
+    .editorial-line { gap: 0.6rem; }
+    .pill-badge { width: 90px; height: 38px; }
+
+    .bottom-metrics-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .spotify-card {
+        width: 280px;
+    }
+}
+
+/* 3. MÓVILES (< 576px) */
+@media (max-width: 576px) {
+    .ui-corner { display: none; }
+    .hero-cta-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .btn-hero-primary, .btn-hero-secondary {
+        text-align: center;
+    }
+
+    .spotify-floating-wrapper {
+        right: 15px;
+        bottom: 15px;
+    }
+
+    .spotify-card {
+        width: calc(100vw - 30px);
+        right: -10px;
     }
 }
