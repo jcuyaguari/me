@@ -94,7 +94,7 @@ function initScrollAnimations() {
     animatedElements.forEach(el => observer.observe(el));
 }
 
-/* 5. EFECTO TYPING EN LA SECCIÓN DE LETRAS */
+/* 5. EFECTO TYPING */
 function initTypingEffect() {
     const phrases = [
         "“Escribo lo que la noche me dicta.”",
@@ -138,7 +138,7 @@ function initTypingEffect() {
     type();
 }
 
-/* 6. CURSOR PERSONALIZADO (DESACTIVADO EN DISPOSITIVOS TÁCTILES) */
+/* 6. CURSOR PERSONALIZADO */
 function initCustomCursor() {
     const cursor = document.getElementById('cursor');
     const follower = document.getElementById('cursor-follower');
@@ -156,7 +156,7 @@ function initCustomCursor() {
     });
 }
 
-/* 7. LÓGICA DE SPOTIFY FLOTANTE */
+/* 7. LÓGICA DE ARRASTRE PARA SPOTIFY (RATÓN Y PANTALLA TÁCTIL) */
 function initDraggableSpotify() {
     const widget = document.getElementById('spotify-widget');
     const toggleBtn = document.getElementById('spotify-toggle');
@@ -164,16 +164,87 @@ function initDraggableSpotify() {
 
     if (!widget || !toggleBtn || !closeBtn) return;
 
+    let isDragging = false;
+    let hasDragged = false;
+    let startX, startY, initialLeft, initialTop;
+
     toggleBtn.addEventListener('click', () => {
-        widget.classList.add('is-open');
+        if (!hasDragged) {
+            widget.classList.add('is-open');
+        }
+        hasDragged = false;
     });
 
     closeBtn.addEventListener('click', () => {
         widget.classList.remove('is-open');
     });
+
+    const startDrag = (e) => {
+        if (widget.classList.contains('is-open')) return;
+
+        isDragging = true;
+        hasDragged = false;
+
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+
+        startX = clientX;
+        startY = clientY;
+
+        const rect = widget.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('touchmove', onDrag, { passive: false });
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchend', stopDrag);
+    };
+
+    const onDrag = (e) => {
+        if (!isDragging) return;
+
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+
+        const deltaX = clientX - startX;
+        const deltaY = clientY - startY;
+
+        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+            hasDragged = true;
+        }
+
+        let newLeft = initialLeft + deltaX;
+        let newTop = initialTop + deltaY;
+
+        const maxLeft = window.innerWidth - widget.offsetWidth - 15;
+        const maxTop = window.innerHeight - widget.offsetHeight - 15;
+
+        newLeft = Math.max(15, Math.min(newLeft, maxLeft));
+        newTop = Math.max(15, Math.min(newTop, maxTop));
+
+        /* Restablecer alineación central CSS cuando el usuario comienza el arrastre */
+        widget.style.left = `${newLeft}px`;
+        widget.style.top = `${newTop}px`;
+        widget.style.transform = 'none';
+        widget.style.bottom = 'auto';
+
+        if (e.cancelable) e.preventDefault();
+    };
+
+    const stopDrag = () => {
+        isDragging = false;
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('touchmove', onDrag);
+        document.removeEventListener('mouseup', stopDrag);
+        document.removeEventListener('touchend', stopDrag);
+    };
+
+    toggleBtn.addEventListener('mousedown', startDrag);
+    toggleBtn.addEventListener('touchstart', startDrag, { passive: false });
 }
 
-/* 8. EFECTO DINÁMICO DE INCLINACIÓN 3D (DESACTIVADO EN PANTALLAS PEQUEÑAS) */
+/* 8. EFECTO DINÁMICO 3D */
 function init3DTiltEffect() {
     const cards = document.querySelectorAll('.card-3d-inner');
     if (window.innerWidth < 992) return;

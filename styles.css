@@ -35,6 +35,13 @@ body.light-theme {
     box-sizing: border-box;
 }
 
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* Evita cualquier desbordamiento horizontal */
+    position: relative;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -43,17 +50,17 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-custom);
-    overflow-x: hidden;
-    position: relative;
     transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
 }
 
 /* ==========================================================================
-   MÁSCARA DE DESVANECIMIENTO Y LAYOUT GENERAL
+   MÁSCARA Y CONTENEDORES
    ========================================================================== */
 .content-wrapper {
     position: relative;
     z-index: 10;
+    width: 100%;
+    overflow-x: hidden;
     mask-image: linear-gradient(
         to bottom, 
         transparent 0px, 
@@ -262,11 +269,6 @@ body.light-theme .video-container {
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.btn-primary-pill:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
 .hamburger {
     display: none;
     flex-direction: column;
@@ -286,7 +288,6 @@ body.light-theme .video-container {
     transition: all 0.3s ease;
 }
 
-/* Botón flotante Light/Night */
 .floating-theme-btn {
     position: fixed;
     top: 5rem;
@@ -310,11 +311,6 @@ body.light-theme .video-container {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     transition: all 0.35s ease;
     user-select: none;
-}
-
-.floating-theme-btn:hover {
-    color: var(--text-color);
-    transform: translateY(-2px);
 }
 
 /* ==========================================================================
@@ -373,8 +369,6 @@ body.light-theme .video-container {
     letter-spacing: 0.12em;
     transition: color 0.3s ease;
 }
-
-.btn-hero-secondary:hover { color: var(--text-color); }
 
 .hero-footnote {
     display: block;
@@ -469,7 +463,6 @@ body.light-theme .video-container {
     transition: transform 0.4s ease;
 }
 
-.pill-badge:hover { transform: rotate(0deg) scale(1.05); }
 .pill-badge img { width: 100%; height: 100%; object-fit: cover; }
 .img-pill-2 { transform: rotate(4deg); }
 
@@ -542,17 +535,18 @@ body.light-theme .video-container {
 }
 
 /* ==========================================================================
-   SPOTIFY WIDGET FLOTANTE
+   WIDGET FLOTANTE Y ARRASTRABLE DE SPOTIFY (CENTRADO)
    ========================================================================== */
 .spotify-floating-wrapper {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    touch-action: none;
+    align-items: center;
+    touch-action: none; /* Permite capturar eventos táctiles para arrastre */
 }
 
 .spotify-toggle-btn {
@@ -564,14 +558,19 @@ body.light-theme .video-container {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     color: var(--text-color);
-    padding: 8px 14px;
+    padding: 8px 16px;
     border-radius: 100px;
     cursor: grab;
     font-family: var(--font-custom);
     font-size: 0.72rem;
     letter-spacing: 0.08em;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     user-select: none;
+    -webkit-user-select: none;
+}
+
+.spotify-toggle-btn:active {
+    cursor: grabbing;
 }
 
 .drag-handle { color: var(--text-muted); opacity: 0.6; }
@@ -580,7 +579,8 @@ body.light-theme .video-container {
 .spotify-card {
     position: absolute;
     bottom: 50px;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(15px) scale(0.95);
     width: 320px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -591,8 +591,7 @@ body.light-theme .video-container {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(15px) scale(0.95);
-    transition: all 0.35s ease;
+    transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
     pointer-events: none;
 }
 
@@ -608,12 +607,13 @@ body.light-theme .video-container {
     color: var(--text-muted);
     cursor: pointer;
     font-size: 0.9rem;
+    padding: 2px 6px;
 }
 
 .spotify-floating-wrapper.is-open .spotify-card {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0) scale(1);
     pointer-events: all;
 }
 
@@ -634,10 +634,9 @@ body.light-theme .video-container {
 }
 
 /* ==========================================================================
-   MEDIA QUERIES - RESPONSIVE DESIGN (SIN BOOTSTRAP)
+   MEDIA QUERIES - CORRECCIONES RESPONSIVAS Y OVERFLOW
    ========================================================================== */
 
-/* 1. Laptops / PANTALLAS MEDIANAS (< 992px) */
 @media (max-width: 992px) {
     .custom-cursor, .custom-cursor-follower, .corner-text { display: none; }
     
@@ -650,11 +649,12 @@ body.light-theme .video-container {
 
     .hamburger { display: flex; }
 
+    /* Corrección de barra negra: no usamos 100vw para evitar desbordes */
     .nav-links {
         position: fixed;
         top: 0;
-        right: -100%;
-        width: 100vw;
+        left: 100%;
+        width: 100%;
         height: 100vh;
         background: rgba(3, 3, 4, 0.96);
         backdrop-filter: blur(25px);
@@ -663,11 +663,11 @@ body.light-theme .video-container {
         justify-content: center;
         align-items: center;
         gap: 2rem;
-        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 999;
     }
 
-    .nav-links.active { right: 0; }
+    .nav-links.active { left: 0; }
     .nav-links .nav-link { font-size: 1.4rem; color: #ffffff; }
 
     .floating-theme-btn {
@@ -676,7 +676,6 @@ body.light-theme .video-container {
     }
 }
 
-/* 2. TABLETS (< 768px) */
 @media (max-width: 768px) {
     .hero-section {
         padding-top: 8rem;
@@ -691,13 +690,14 @@ body.light-theme .video-container {
     }
 
     .spotify-card {
-        width: 280px;
+        width: calc(100vw - 40px);
+        max-width: 320px;
     }
 }
 
-/* 3. MÓVILES (< 576px) */
 @media (max-width: 576px) {
     .ui-corner { display: none; }
+    
     .hero-cta-group {
         flex-direction: column;
         align-items: stretch;
@@ -706,15 +706,5 @@ body.light-theme .video-container {
 
     .btn-hero-primary, .btn-hero-secondary {
         text-align: center;
-    }
-
-    .spotify-floating-wrapper {
-        right: 15px;
-        bottom: 15px;
-    }
-
-    .spotify-card {
-        width: calc(100vw - 30px);
-        right: -10px;
     }
 }
