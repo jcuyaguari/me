@@ -31,17 +31,12 @@
     <div class="custom-cursor" id="cursor"></div>
     <div class="custom-cursor-follower" id="cursor-follower"></div>
 
-    <!-- Botón Light/Night -->
-    <button id="theme-toggle" class="floating-theme-btn" aria-label="Cambiar tema">
-        <span class="theme-icon">🌙</span>
-    </button>
-
     <!-- Header Floating Navbar -->
     <header class="navbar-wrapper">
         <nav class="navbar">
             <a href="#hero" class="nav-brand">
                 <span class="status-dot"></span>
-                <span class="brand-name">JUAN</span>
+                <span>JUAN</span>
             </a>
 
             <div class="nav-links" id="nav-links">
@@ -52,9 +47,14 @@
             </div>
 
             <div class="nav-actions">
-                <a href="https://www.instagram.com/juancc.u/" target="_blank" rel="noopener" class="btn-primary-pill">Agendar</a>
-                
-                <button class="hamburger" id="hamburger" aria-label="Abrir Menú">
+                <!-- Botón del Tema Integrado en el Menú -->
+                <button id="theme-toggle" class="theme-btn-inline" aria-label="Cambiar tema">
+                    <span class="theme-icon">☀️</span>
+                </button>
+
+                <a href="#contacto" class="btn-primary-pill">Agendar</a>
+
+                <button class="hamburger" id="hamburger" aria-label="Menú">
                     <span></span>
                     <span></span>
                     <span></span>

@@ -38,7 +38,7 @@ body.light-theme {
 html, body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden !important; /* Evita cualquier desbordamiento horizontal */
+    overflow-x: hidden !important; /* Bloquea el desbordamiento horizontal */
     position: relative;
 }
 
@@ -252,10 +252,11 @@ body.light-theme .video-container {
     color: var(--text-color);
 }
 
+/* Acciones agrupadas: Tema + Agendar + Hamburguesa */
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.6rem;
 }
 
 .btn-primary-pill {
@@ -267,6 +268,29 @@ body.light-theme .video-container {
     font-size: 0.78rem;
     font-weight: 600;
     transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Botón de tema totalmente integrado */
+.theme-btn-inline {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.theme-btn-inline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.08);
 }
 
 .hamburger {
@@ -286,31 +310,6 @@ body.light-theme .video-container {
     height: 2px;
     background-color: var(--text-color);
     transition: all 0.3s ease;
-}
-
-.floating-theme-btn {
-    position: fixed;
-    top: 5rem;
-    right: 2.5rem;
-    z-index: 1001;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    background: var(--bg-color);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 100px;
-    color: var(--text-muted);
-    font-family: var(--font-custom);
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    transition: all 0.35s ease;
-    user-select: none;
 }
 
 /* ==========================================================================
@@ -535,7 +534,7 @@ body.light-theme .video-container {
 }
 
 /* ==========================================================================
-   WIDGET FLOTANTE Y ARRASTRABLE DE SPOTIFY (CENTRADO)
+   WIDGET FLOTANTE SPOTIFY
    ========================================================================== */
 .spotify-floating-wrapper {
     position: fixed;
@@ -546,7 +545,7 @@ body.light-theme .video-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    touch-action: none; /* Permite capturar eventos táctiles para arrastre */
+    touch-action: none;
 }
 
 .spotify-toggle-btn {
@@ -634,26 +633,14 @@ body.light-theme .video-container {
 }
 
 /* ==========================================================================
-   MEDIA QUERIES - CORRECCIONES RESPONSIVAS Y OVERFLOW
+   MEDIA QUERIES - RESPONSIVIDAD Y MENÚ MÓVIL
    ========================================================================== */
-
 @media (max-width: 992px) {
-        /* Reposicionamiento del botón de tema en móviles */
-    .floating-theme-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 4.5rem; /* Posiciona el sol/luna justo a la izquierda del menú hamburguesa */
-        z-index: 1002;
-        padding: 6px 10px;
+    .hamburger {
+        display: flex;
     }
 
-    /* Asegurar que la barra superior mantenga posición relativa para el botón */
-    .navbar {
-        position: relative;
-    }
-    
-    /* Menú móvil fuera de pantalla sin generar overflow */
+    /* Menú desplegable oculto sin romper el viewport horizontal */
     .nav-links {
         position: fixed;
         top: 0;
@@ -669,7 +656,6 @@ body.light-theme .video-container {
         gap: 2rem;
         z-index: 999;
         
-        /* Ocultar completamente sin desplazar horizontalmente */
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -677,7 +663,7 @@ body.light-theme .video-container {
         transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
     }
 
-    /* Estado activo del menú */
+    /* Menú abierto */
     .nav-links.active {
         opacity: 1;
         visibility: visible;
@@ -685,7 +671,11 @@ body.light-theme .video-container {
         transform: translateY(0);
     }
 
-
+    .theme-btn-inline {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 768px) {
