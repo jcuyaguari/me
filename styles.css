@@ -638,6 +638,21 @@ body.light-theme .video-container {
    ========================================================================== */
 
 @media (max-width: 992px) {
+        /* Reposicionamiento del botón de tema en móviles */
+    .floating-theme-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 4.5rem; /* Posiciona el sol/luna justo a la izquierda del menú hamburguesa */
+        z-index: 1002;
+        padding: 6px 10px;
+    }
+
+    /* Asegurar que la barra superior mantenga posición relativa para el botón */
+    .navbar {
+        position: relative;
+    }
+    
     /* Menú móvil fuera de pantalla sin generar overflow */
     .nav-links {
         position: fixed;
@@ -670,20 +685,7 @@ body.light-theme .video-container {
         transform: translateY(0);
     }
 
-    /* Reposicionamiento del botón de tema en móviles */
-    .floating-theme-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 4.5rem; /* Posiciona el sol/luna justo a la izquierda del menú hamburguesa */
-        z-index: 1002;
-        padding: 6px 10px;
-    }
 
-    /* Asegurar que la barra superior mantenga posición relativa para el botón */
-    .navbar {
-        position: relative;
-    }
 }
 
 @media (max-width: 768px) {
