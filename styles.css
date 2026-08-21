@@ -731,11 +731,15 @@ body.light-theme .video-container {
         transform: translateY(0);
     }
 
+    .navbar {
+        width: calc(100% - 65px);
+        margin-right: 45px;
+    }
+
     .theme-btn-floating {
         position: fixed;
-
         top: 1.5rem;
-        right: 1rem;
+        right: 0.8rem;
         left: auto;
 
         width: 40px;
@@ -765,16 +769,17 @@ body.light-theme .video-container {
 }
 
 @media (max-width: 576px) {
+    .navbar {
+        width: calc(100% - 58px);
+        margin-right: 42px;
+    }
+
     .theme-btn-floating {
         top: 1.25rem;
-        right: 0.75rem;
+        right: 0.7rem;
 
-        width: 38px;
-        height: 38px;
-
-        font-size: 0.85rem;
-
-        z-index: 3000;
+        width: 37px;
+        height: 37px;
     }
 
     .ui-corner { display: none; }
