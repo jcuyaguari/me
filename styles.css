@@ -274,16 +274,16 @@ body.light-theme .video-container {
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Botón de tema totalmente integrado */
 /* ==========================================================================
-   BOTÓN DE TEMA — FUERA DEL MENÚ PRINCIPAL
+   BOTÓN LIGHT / DARK — FUERA DEL MENÚ
    ========================================================================== */
 
 .theme-btn-floating {
-    position: absolute;
+    position: fixed;
+
+    /* Escritorio */
+    top: 1.5rem;
     left: calc(50% + 445px);
-    top: 50%;
-    transform: translateY(-50%);
 
     width: 42px;
     height: 42px;
@@ -300,6 +300,7 @@ body.light-theme .video-container {
     -webkit-backdrop-filter: blur(20px);
 
     color: var(--text-color);
+
     cursor: pointer;
 
     font-size: 0.95rem;
@@ -309,21 +310,25 @@ body.light-theme .video-container {
     transition:
         background 0.3s ease,
         border-color 0.3s ease,
+        color 0.3s ease,
         transform 0.3s ease,
         box-shadow 0.3s ease;
 
     padding: 0;
-    z-index: 1001;
+
+    /* MUY IMPORTANTE */
+    z-index: 2000;
 }
 
 /* Hover */
-.theme-btn-floating:hover {
-    transform: translateY(-50%) scale(1.08);
 
+.theme-btn-floating:hover {
     background: var(--text-color);
     color: var(--bg-color);
 
     border-color: var(--text-color);
+
+    transform: scale(1.08);
 
     box-shadow:
         0 0 0 1px var(--glass-border),
@@ -331,12 +336,14 @@ body.light-theme .video-container {
 }
 
 /* Icono */
+
 .theme-btn-floating .theme-icon {
     display: flex;
     align-items: center;
     justify-content: center;
 
     line-height: 1;
+
     transition: transform 0.3s ease;
 }
 
@@ -716,6 +723,8 @@ body.light-theme .video-container {
 
     /* Menú abierto */
     .nav-links.active {
+        z-index: 999;
+
         opacity: 1;
         visibility: visible;
         pointer-events: all;
@@ -723,10 +732,17 @@ body.light-theme .video-container {
     }
 
     .theme-btn-floating {
+        position: fixed;
+
+        top: 1.5rem;
         right: 1rem;
-        width: 38px;
-        height: 38px;
-    }   
+        left: auto;
+
+        width: 40px;
+        height: 40px;
+
+        z-index: 3000;
+    }
 }
 
 @media (max-width: 768px) {
@@ -750,10 +766,15 @@ body.light-theme .video-container {
 
 @media (max-width: 576px) {
     .theme-btn-floating {
+        top: 1.25rem;
         right: 0.75rem;
-        width: 36px;
-        height: 36px;
-        font-size: 0.8rem;
+
+        width: 38px;
+        height: 38px;
+
+        font-size: 0.85rem;
+
+        z-index: 3000;
     }
 
     .ui-corner { display: none; }
