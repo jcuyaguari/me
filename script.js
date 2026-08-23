@@ -1,271 +1,213 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     initThemeToggle();
     initMobileNav();
-    initSmoothNavigation();
-    initScrollAnimations();
-    initTypingEffect();
-    initCustomCursor();
-    initDraggableSpotify();
-    init3DTiltEffect();
+    initScrollSpy();
+    initReveal();
+    initTyping();
+    initCursor();
+    initSpotify();
 });
 
-/* 1. CAMBIO DE TEMA LIGHT / NIGHT */
-function initThemeToggle() {
-    const themeBtn = document.getElementById('theme-toggle');
-    if (!themeBtn) return;
+/* THEME */
+function initThemeToggle(){
+    const btn = document.getElementById("theme-toggle");
+    const icon = btn?.querySelector(".theme-icon");
+    if(!btn) return;
 
-    const themeIcon = themeBtn.querySelector('.theme-icon');
-    const savedTheme = localStorage.getItem('theme');
+    const saved = localStorage.getItem("theme");
+    const apply = theme => {
+        document.body.classList.toggle("light-theme", theme === "light");
+        document.body.classList.toggle("dark-theme", theme !== "light");
+        if(icon) icon.textContent = theme === "light" ? "☾" : "☀";
+    };
 
-    if (savedTheme === 'light') {
-        document.body.classList.remove('dark-theme');
-        document.body.classList.add('light-theme');
-        if (themeIcon) themeIcon.textContent = '☀️';
-    }
+    apply(saved || "dark");
 
-    themeBtn.addEventListener('click', () => {
-        if (document.body.classList.contains('dark-theme')) {
-            document.body.classList.remove('dark-theme');
-            document.body.classList.add('light-theme');
-            if (themeIcon) themeIcon.textContent = '☀️';
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.body.classList.remove('light-theme');
-            document.body.classList.add('dark-theme');
-            if (themeIcon) themeIcon.textContent = '🌙';
-            localStorage.setItem('theme', 'dark');
-        }
+    btn.addEventListener("click", () => {
+        const next = document.body.classList.contains("light-theme") ? "dark" : "light";
+        apply(next);
+        localStorage.setItem("theme", next);
     });
 }
 
-/* 2. MENÚ RESPONSIVE HAMBURGUESA */
-function initMobileNav() {
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
+/* MOBILE NAV */
+function initMobileNav(){
+    const hamburger = document.getElementById("hamburger");
+    const links = document.getElementById("nav-links");
+    if(!hamburger || !links) return;
 
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+    hamburger.addEventListener("click", () => {
+        const open = links.classList.toggle("active");
+        hamburger.setAttribute("aria-expanded", open);
+    });
 
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-    }
-}
-
-/* 3. NAVEGACIÓN Y RESALTADO DE SECCIÓN ACTIVA */
-function initSmoothNavigation() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 200;
-            if (window.scrollY >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+    links.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => links.classList.remove("active"));
     });
 }
 
-/* 4. ANIMACIONES AL HACER SCROLL */
-function initScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+/* ACTIVE SECTION */
+function initScrollSpy(){
+    const sections = [...document.querySelectorAll("section[id]")];
+    const links = [...document.querySelectorAll(".nav-link")];
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
+            if(entry.isIntersecting){
+                links.forEach(link => link.classList.toggle(
+                    "active",
+                    link.getAttribute("href") === "#" + entry.target.id
+                ));
             }
         });
-    }, { threshold: 0.15 });
+    }, {rootMargin:"-45% 0px -45% 0px", threshold:0});
 
-    animatedElements.forEach(el => observer.observe(el));
+    sections.forEach(section => observer.observe(section));
 }
 
-/* 5. EFECTO TYPING */
-function initTypingEffect() {
+/* REVEAL */
+function initReveal(){
+    const items = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {threshold:.12});
+
+    items.forEach(item => observer.observe(item));
+}
+
+/* TYPEWRITER */
+function initTyping(){
+    const target = document.getElementById("typing-text");
+    if(!target) return;
+
     const phrases = [
-        "“Escribo lo que la noche me dicta.”",
-        "“La melodía ya existía, solo tuve que escuchar.”",
-        "“Cada verso es un eco de lo vivido.”",
-        "“Silencio, caos, armonía.”"
+        "Escribo lo que la noche me dicta.",
+        "La melodía ya existía, solo tuve que escuchar.",
+        "Cada verso es un eco de lo vivido.",
+        "Silencio, caos, armonía."
     ];
 
-    const targetElement = document.getElementById('typing-text');
-    if (!targetElement) return;
+    let p = 0, i = 0, deleting = false;
 
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    function type(){
+        const phrase = phrases[p];
 
-    function type() {
-        const currentPhrase = phrases[phraseIndex];
-
-        if (isDeleting) {
-            targetElement.textContent = currentPhrase.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            targetElement.textContent = currentPhrase.substring(0, charIndex + 1);
-            charIndex++;
+        if(!deleting){
+            target.textContent = phrase.slice(0, i + 1);
+            i++;
+        }else{
+            target.textContent = phrase.slice(0, i - 1);
+            i--;
         }
 
-        let speed = isDeleting ? 40 : 80;
+        let speed = deleting ? 35 : 70;
 
-        if (!isDeleting && charIndex === currentPhrase.length) {
-            speed = 2500;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            phraseIndex = (phraseIndex + 1) % phrases.length;
+        if(!deleting && i === phrase.length){
+            speed = 2200;
+            deleting = true;
+        }else if(deleting && i === 0){
+            deleting = false;
+            p = (p + 1) % phrases.length;
             speed = 500;
         }
 
         setTimeout(type, speed);
     }
-
     type();
 }
 
-/* 6. CURSOR PERSONALIZADO */
-function initCustomCursor() {
-    const cursor = document.getElementById('cursor');
-    const follower = document.getElementById('cursor-follower');
+/* CURSOR */
+function initCursor(){
+    const cursor = document.getElementById("cursor");
+    const follower = document.getElementById("cursor-follower");
+    if(!cursor || !follower || window.matchMedia("(hover:none)").matches) return;
 
-    if (!cursor || !follower || window.innerWidth < 992) return;
+    document.addEventListener("mousemove", e => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+        follower.animate(
+            {left:e.clientX + "px", top:e.clientY + "px"},
+            {duration:420, fill:"forwards"}
+        );
+    });
 
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = `${e.clientX}px`;
-        cursor.style.top = `${e.clientY}px`;
-
-        follower.animate({
-            left: `${e.clientX}px`,
-            top: `${e.clientY}px`
-        }, { duration: 400, fill: "forwards" });
+    document.querySelectorAll("a,button").forEach(el => {
+        el.addEventListener("mouseenter", () => {
+            follower.style.width = "48px";
+            follower.style.height = "48px";
+        });
+        el.addEventListener("mouseleave", () => {
+            follower.style.width = "34px";
+            follower.style.height = "34px";
+        });
     });
 }
 
-/* 7. LÓGICA DE ARRASTRE PARA SPOTIFY (RATÓN Y PANTALLA TÁCTIL) */
-function initDraggableSpotify() {
-    const widget = document.getElementById('spotify-widget');
-    const toggleBtn = document.getElementById('spotify-toggle');
-    const closeBtn = document.getElementById('spotify-close');
+/* SPOTIFY DRAG + OPEN */
+function initSpotify(){
+    const widget = document.getElementById("spotify-widget");
+    const toggle = document.getElementById("spotify-toggle");
+    const close = document.getElementById("spotify-close");
+    if(!widget || !toggle || !close) return;
 
-    if (!widget || !toggleBtn || !closeBtn) return;
+    let dragging = false, dragged = false;
+    let sx = 0, sy = 0, il = 0, it = 0;
 
-    let isDragging = false;
-    let hasDragged = false;
-    let startX, startY, initialLeft, initialTop;
-
-    toggleBtn.addEventListener('click', () => {
-        if (!hasDragged) {
-            widget.classList.add('is-open');
-        }
-        hasDragged = false;
+    toggle.addEventListener("click", () => {
+        if(!dragged) widget.classList.add("is-open");
+        dragged = false;
     });
 
-    closeBtn.addEventListener('click', () => {
-        widget.classList.remove('is-open');
-    });
+    close.addEventListener("click", () => widget.classList.remove("is-open"));
 
-    const startDrag = (e) => {
-        if (widget.classList.contains('is-open')) return;
+    const point = e => e.touches ? e.touches[0] : e;
 
-        isDragging = true;
-        hasDragged = false;
+    function start(e){
+        if(widget.classList.contains("is-open")) return;
+        const p = point(e);
+        const r = widget.getBoundingClientRect();
+        dragging = true; dragged = false;
+        sx = p.clientX; sy = p.clientY;
+        il = r.left; it = r.top;
 
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        document.addEventListener("mousemove", move);
+        document.addEventListener("touchmove", move, {passive:false});
+        document.addEventListener("mouseup", stop);
+        document.addEventListener("touchend", stop);
+    }
 
-        startX = clientX;
-        startY = clientY;
+    function move(e){
+        if(!dragging) return;
+        const p = point(e);
+        const dx = p.clientX - sx, dy = p.clientY - sy;
 
-        const rect = widget.getBoundingClientRect();
-        initialLeft = rect.left;
-        initialTop = rect.top;
+        if(Math.abs(dx)>5 || Math.abs(dy)>5) dragged = true;
 
-        document.addEventListener('mousemove', onDrag);
-        document.addEventListener('touchmove', onDrag, { passive: false });
-        document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('touchend', stopDrag);
-    };
+        let left = Math.max(12, Math.min(il + dx, innerWidth - widget.offsetWidth - 12));
+        let top = Math.max(12, Math.min(it + dy, innerHeight - widget.offsetHeight - 12));
 
-    const onDrag = (e) => {
-        if (!isDragging) return;
+        widget.style.left = left + "px";
+        widget.style.top = top + "px";
+        widget.style.right = "auto";
+        widget.style.bottom = "auto";
+        widget.style.transform = "none";
 
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        if(e.cancelable) e.preventDefault();
+    }
 
-        const deltaX = clientX - startX;
-        const deltaY = clientY - startY;
+    function stop(){
+        dragging = false;
+        document.removeEventListener("mousemove", move);
+        document.removeEventListener("touchmove", move);
+        document.removeEventListener("mouseup", stop);
+        document.removeEventListener("touchend", stop);
+    }
 
-        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
-            hasDragged = true;
-        }
-
-        let newLeft = initialLeft + deltaX;
-        let newTop = initialTop + deltaY;
-
-        const maxLeft = window.innerWidth - widget.offsetWidth - 15;
-        const maxTop = window.innerHeight - widget.offsetHeight - 15;
-
-        newLeft = Math.max(15, Math.min(newLeft, maxLeft));
-        newTop = Math.max(15, Math.min(newTop, maxTop));
-
-        /* Restablecer alineación central CSS cuando el usuario comienza el arrastre */
-        widget.style.left = `${newLeft}px`;
-        widget.style.top = `${newTop}px`;
-        widget.style.transform = 'none';
-        widget.style.bottom = 'auto';
-
-        if (e.cancelable) e.preventDefault();
-    };
-
-    const stopDrag = () => {
-        isDragging = false;
-        document.removeEventListener('mousemove', onDrag);
-        document.removeEventListener('touchmove', onDrag);
-        document.removeEventListener('mouseup', stopDrag);
-        document.removeEventListener('touchend', stopDrag);
-    };
-
-    toggleBtn.addEventListener('mousedown', startDrag);
-    toggleBtn.addEventListener('touchstart', startDrag, { passive: false });
-}
-
-/* 8. EFECTO DINÁMICO 3D */
-function init3DTiltEffect() {
-    const cards = document.querySelectorAll('.card-3d-inner');
-    if (window.innerWidth < 992) return;
-
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = ((y - centerY) / centerY) * -12;
-            const rotateY = ((x - centerX) / centerX) * 12;
-
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(15px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateX(0deg) rotateY(0deg) translateZ(0px)`;
-        });
-    });
+    toggle.addEventListener("mousedown", start);
+    toggle.addEventListener("touchstart", start, {passive:false});
 }
