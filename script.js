@@ -8,81 +8,157 @@ document.addEventListener("DOMContentLoaded", () => {
     initSpotify();
 });
 
-/* THEME */
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
 function initThemeToggle(){
-    const btn = document.getElementById("theme-toggle");
-    const icon = btn?.querySelector(".theme-icon");
-    if(!btn) return;
+    const button = document.getElementById("theme-toggle");
+    const icon = button?.querySelector(".theme-icon");
 
-    const saved = localStorage.getItem("theme");
-    const apply = theme => {
-        document.body.classList.toggle("light-theme", theme === "light");
-        document.body.classList.toggle("dark-theme", theme !== "light");
-        if(icon) icon.textContent = theme === "light" ? "☾" : "☀";
-    };
+    if(!button) return;
 
-    apply(saved || "dark");
+    const savedTheme = localStorage.getItem("theme");
+    const initialTheme = savedTheme === "light" ? "light" : "dark";
 
-    btn.addEventListener("click", () => {
-        const next = document.body.classList.contains("light-theme") ? "dark" : "light";
-        apply(next);
-        localStorage.setItem("theme", next);
+    function applyTheme(theme){
+        const isLight = theme === "light";
+
+        document.body.classList.toggle("light-theme", isLight);
+        document.body.classList.toggle("dark-theme", !isLight);
+
+        if(icon){
+            icon.textContent = isLight ? "☾" : "☀";
+        }
+
+        button.setAttribute(
+            "aria-label",
+            isLight ? "Cambiar a modo oscuro" : "Cambiar a modo claro"
+        );
+
+        button.setAttribute("aria-pressed", String(isLight));
+
+        const metaTheme = document.querySelector('meta[name="theme-color"]');
+        if(metaTheme){
+            metaTheme.setAttribute("content", isLight ? "#f2f2ef" : "#050505");
+        }
+    }
+
+    applyTheme(initialTheme);
+
+    button.addEventListener("click", () => {
+        const nextTheme = document.body.classList.contains("light-theme")
+            ? "dark"
+            : "light";
+
+        applyTheme(nextTheme);
+        localStorage.setItem("theme", nextTheme);
     });
 }
 
-/* MOBILE NAV */
+
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
+
 function initMobileNav(){
     const hamburger = document.getElementById("hamburger");
     const links = document.getElementById("nav-links");
+
     if(!hamburger || !links) return;
 
+    function setMenu(open){
+        links.classList.toggle("active", open);
+        hamburger.setAttribute("aria-expanded", String(open));
+        hamburger.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+        document.body.classList.toggle("menu-open", open);
+    }
+
     hamburger.addEventListener("click", () => {
-        const open = links.classList.toggle("active");
-        hamburger.setAttribute("aria-expanded", open);
+        const isOpen = hamburger.getAttribute("aria-expanded") === "true";
+        setMenu(!isOpen);
     });
 
-    links.querySelectorAll("a").forEach(a => {
-        a.addEventListener("click", () => links.classList.remove("active"));
+    links.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => setMenu(false));
+    });
+
+    document.addEventListener("keydown", event => {
+        if(event.key === "Escape"){
+            setMenu(false);
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if(window.innerWidth > 992){
+            setMenu(false);
+        }
     });
 }
 
-/* ACTIVE SECTION */
+
+/* =========================================================
+   ACTIVE SECTION
+   ========================================================= */
+
 function initScrollSpy(){
     const sections = [...document.querySelectorAll("section[id]")];
     const links = [...document.querySelectorAll(".nav-link")];
 
+    if(!sections.length || !links.length) return;
+
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if(entry.isIntersecting){
-                links.forEach(link => link.classList.toggle(
-                    "active",
-                    link.getAttribute("href") === "#" + entry.target.id
-                ));
-            }
+            if(!entry.isIntersecting) return;
+
+            links.forEach(link => {
+                const isActive =
+                    link.getAttribute("href") === `#${entry.target.id}`;
+
+                link.classList.toggle("active", isActive);
+            });
         });
-    }, {rootMargin:"-45% 0px -45% 0px", threshold:0});
+    }, {
+        rootMargin:"-45% 0px -45% 0px",
+        threshold:0
+    });
 
     sections.forEach(section => observer.observe(section));
 }
 
-/* REVEAL */
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+
 function initReveal(){
     const items = document.querySelectorAll(".reveal");
+
+    if(!items.length) return;
+
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if(entry.isIntersecting){
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
-            }
+            if(!entry.isIntersecting) return;
+
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
         });
-    }, {threshold:.12});
+    }, {
+        threshold:.12
+    });
 
     items.forEach(item => observer.observe(item));
 }
 
-/* TYPEWRITER */
+
+/* =========================================================
+   TYPEWRITER
+   ========================================================= */
+
 function initTyping(){
     const target = document.getElementById("typing-text");
+
     if(!target) return;
 
     const phrases = [
@@ -92,122 +168,200 @@ function initTyping(){
         "Silencio, caos, armonía."
     ];
 
-    let p = 0, i = 0, deleting = false;
+    let phraseIndex = 0;
+    let characterIndex = 0;
+    let deleting = false;
+    let timer = null;
 
     function type(){
-        const phrase = phrases[p];
+        const phrase = phrases[phraseIndex];
 
-        if(!deleting){
-            target.textContent = phrase.slice(0, i + 1);
-            i++;
-        }else{
-            target.textContent = phrase.slice(0, i - 1);
-            i--;
-        }
+        characterIndex += deleting ? -1 : 1;
+        target.textContent = phrase.slice(0, characterIndex);
 
         let speed = deleting ? 35 : 70;
 
-        if(!deleting && i === phrase.length){
-            speed = 2200;
+        if(!deleting && characterIndex >= phrase.length){
             deleting = true;
-        }else if(deleting && i === 0){
+            speed = 2200;
+        }else if(deleting && characterIndex <= 0){
             deleting = false;
-            p = (p + 1) % phrases.length;
+            phraseIndex = (phraseIndex + 1) % phrases.length;
             speed = 500;
         }
 
-        setTimeout(type, speed);
+        timer = window.setTimeout(type, speed);
     }
+
     type();
+
+    window.addEventListener("beforeunload", () => {
+        if(timer) window.clearTimeout(timer);
+    });
 }
 
-/* CURSOR */
+
+/* =========================================================
+   CUSTOM CURSOR
+   ========================================================= */
+
 function initCursor(){
     const cursor = document.getElementById("cursor");
     const follower = document.getElementById("cursor-follower");
-    if(!cursor || !follower || window.matchMedia("(hover:none)").matches) return;
 
-    document.addEventListener("mousemove", e => {
-        cursor.style.left = e.clientX + "px";
-        cursor.style.top = e.clientY + "px";
-        follower.animate(
-            {left:e.clientX + "px", top:e.clientY + "px"},
-            {duration:420, fill:"forwards"}
+    if(
+        !cursor ||
+        !follower ||
+        window.matchMedia("(hover:none)").matches
+    ){
+        return;
+    }
+
+    let followerAnimation = null;
+
+    document.addEventListener("mousemove", event => {
+        const {clientX, clientY} = event;
+
+        cursor.style.left = `${clientX}px`;
+        cursor.style.top = `${clientY}px`;
+
+        if(followerAnimation){
+            followerAnimation.cancel();
+        }
+
+        followerAnimation = follower.animate(
+            {
+                left:`${clientX}px`,
+                top:`${clientY}px`
+            },
+            {
+                duration:420,
+                fill:"forwards"
+            }
         );
     });
 
-    document.querySelectorAll("a,button").forEach(el => {
-        el.addEventListener("mouseenter", () => {
+    document.querySelectorAll("a,button").forEach(element => {
+        element.addEventListener("mouseenter", () => {
             follower.style.width = "48px";
             follower.style.height = "48px";
         });
-        el.addEventListener("mouseleave", () => {
+
+        element.addEventListener("mouseleave", () => {
             follower.style.width = "34px";
             follower.style.height = "34px";
         });
     });
 }
 
-/* SPOTIFY DRAG + OPEN */
+
+/* =========================================================
+   SPOTIFY — OPEN / CLOSE / DRAG
+   ========================================================= */
+
 function initSpotify(){
     const widget = document.getElementById("spotify-widget");
     const toggle = document.getElementById("spotify-toggle");
     const close = document.getElementById("spotify-close");
+
     if(!widget || !toggle || !close) return;
 
-    let dragging = false, dragged = false;
-    let sx = 0, sy = 0, il = 0, it = 0;
+    let dragging = false;
+    let dragged = false;
 
-    toggle.addEventListener("click", () => {
-        if(!dragged) widget.classList.add("is-open");
-        dragged = false;
-    });
+    let startX = 0;
+    let startY = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
 
-    close.addEventListener("click", () => widget.classList.remove("is-open"));
+    const getPoint = event => {
+        if(event.touches?.length){
+            return event.touches[0];
+        }
 
-    const point = e => e.touches ? e.touches[0] : e;
+        return event;
+    };
 
-    function start(e){
-        if(widget.classList.contains("is-open")) return;
-        const p = point(e);
-        const r = widget.getBoundingClientRect();
-        dragging = true; dragged = false;
-        sx = p.clientX; sy = p.clientY;
-        il = r.left; it = r.top;
-
-        document.addEventListener("mousemove", move);
-        document.addEventListener("touchmove", move, {passive:false});
-        document.addEventListener("mouseup", stop);
-        document.addEventListener("touchend", stop);
+    function openSpotify(){
+        widget.classList.add("is-open");
+        toggle.setAttribute("aria-expanded","true");
     }
 
-    function move(e){
+    function closeSpotify(){
+        widget.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded","false");
+    }
+
+    toggle.addEventListener("click", () => {
+        if(dragged){
+            dragged = false;
+            return;
+        }
+
+        openSpotify();
+    });
+
+    close.addEventListener("click", closeSpotify);
+
+    function startDrag(event){
+        if(widget.classList.contains("is-open")) return;
+
+        const point = getPoint(event);
+        const rect = widget.getBoundingClientRect();
+
+        dragging = true;
+        dragged = false;
+
+        startX = point.clientX;
+        startY = point.clientY;
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        document.addEventListener("mousemove", moveDrag);
+        document.addEventListener("touchmove", moveDrag, {passive:false});
+        document.addEventListener("mouseup", stopDrag);
+        document.addEventListener("touchend", stopDrag);
+    }
+
+    function moveDrag(event){
         if(!dragging) return;
-        const p = point(e);
-        const dx = p.clientX - sx, dy = p.clientY - sy;
 
-        if(Math.abs(dx)>5 || Math.abs(dy)>5) dragged = true;
+        const point = getPoint(event);
+        if(!point) return;
 
-        let left = Math.max(12, Math.min(il + dx, innerWidth - widget.offsetWidth - 12));
-        let top = Math.max(12, Math.min(it + dy, innerHeight - widget.offsetHeight - 12));
+        const deltaX = point.clientX - startX;
+        const deltaY = point.clientY - startY;
 
-        widget.style.left = left + "px";
-        widget.style.top = top + "px";
+        if(Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5){
+            dragged = true;
+        }
+
+        const maxLeft = Math.max(12, window.innerWidth - widget.offsetWidth - 12);
+        const maxTop = Math.max(12, window.innerHeight - widget.offsetHeight - 12);
+
+        const left = Math.max(12, Math.min(initialLeft + deltaX, maxLeft));
+        const top = Math.max(12, Math.min(initialTop + deltaY, maxTop));
+
+        widget.style.left = `${left}px`;
+        widget.style.top = `${top}px`;
         widget.style.right = "auto";
         widget.style.bottom = "auto";
         widget.style.transform = "none";
 
-        if(e.cancelable) e.preventDefault();
+        if(event.cancelable){
+            event.preventDefault();
+        }
     }
 
-    function stop(){
+    function stopDrag(){
         dragging = false;
-        document.removeEventListener("mousemove", move);
-        document.removeEventListener("touchmove", move);
-        document.removeEventListener("mouseup", stop);
-        document.removeEventListener("touchend", stop);
+
+        document.removeEventListener("mousemove", moveDrag);
+        document.removeEventListener("touchmove", moveDrag);
+        document.removeEventListener("mouseup", stopDrag);
+        document.removeEventListener("touchend", stopDrag);
     }
 
-    toggle.addEventListener("mousedown", start);
-    toggle.addEventListener("touchstart", start, {passive:false});
+    toggle.addEventListener("mousedown", startDrag);
+    toggle.addEventListener("touchstart", startDrag, {passive:false});
 }

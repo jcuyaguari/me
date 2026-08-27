@@ -1,265 +1,254 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#050505">
-    <meta name="description" content="JUAN — Songwriter Creative Studio. Canciones, conceptos y experiencias digitales.">
-    <title>JUAN — Songwriter Creative Studio</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="JUAN — Songwriter Creative Studio. Canciones, conceptos y experiencias digitales.">
+<title>JUAN — Songwriter Creative Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="dark-theme">
-    <div class="noise"></div>
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursor-follower"></div>
+<div class="noise" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-follower" id="cursor-follower" aria-hidden="true"></div>
 
-    <div class="video-container" aria-hidden="true">
-        <video autoplay loop muted playsinline id="bg-video">
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260801_001207_ec20d138-aa45-4b2b-ab8c-bdc71607f240.mp4" type="video/mp4">
-        </video>
-        <div class="video-vignette"></div>
-    </div>
+<div class="video-container" aria-hidden="true">
+    <video autoplay loop muted playsinline id="bg-video">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260801_001207_ec20d138-aa45-4b2b-ab8c-bdc71607f240.mp4" type="video/mp4">
+    </video>
+    <div class="video-vignette"></div>
+</div>
 
-    <div class="ui-corner corner-top-left"></div>
-    <div class="ui-corner corner-top-right"></div>
-    <div class="ui-corner corner-bottom-left"></div>
-    <div class="ui-corner corner-bottom-right"></div>
+<div class="ui-corner corner-top-left" aria-hidden="true"></div>
+<div class="ui-corner corner-top-right" aria-hidden="true"></div>
+<div class="ui-corner corner-bottom-left" aria-hidden="true"></div>
+<div class="ui-corner corner-bottom-right" aria-hidden="true"></div>
 
-    <div class="corner-text text-top-left">CREATIVE STUDIO<br><span>EST. 2026</span></div>
-    <div class="corner-text text-top-right">PART 01 / 04</div>
-    <div class="corner-text text-bottom-right">EMOCIÓN SOBRE RUIDO.<br>PROFUNDIDAD SOBRE ALCANCE.</div>
+<div class="corner-text text-top-left" aria-hidden="true">CREATIVE STUDIO<br><span>EST. 2026</span></div>
+<div class="corner-text text-top-right" aria-hidden="true">PART 01 / 04</div>
+<div class="corner-text text-bottom-right" aria-hidden="true">EMOCIÓN SOBRE RUIDO.<br>PROFUNDIDAD SOBRE ALCANCE.</div>
 
-    <header class="navbar-wrapper">
-        <nav class="navbar">
-            <a href="#hero" class="nav-brand">
-                <span>JUAN</span>
-            </a>
+<header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Navegación principal">
+        <a href="#hero" class="nav-brand" aria-label="JUAN — Inicio"><span>JUAN</span></a>
 
-            <div class="nav-links" id="nav-links">
-                <a href="#hero" class="nav-link active">Inicio</a>
-                <a href="#proceso" class="nav-link">Proceso</a>
-                <a href="#letras" class="nav-link">Letras</a>
-                <a href="#contacto" class="nav-link">Contacto</a>
-            </div>
+        <div class="nav-links" id="nav-links">
+            <a href="#hero" class="nav-link active">Inicio</a>
+            <a href="#proceso" class="nav-link">Proceso</a>
+            <a href="#letras" class="nav-link">Letras</a>
+            <a href="#contacto" class="nav-link">Contacto</a>
+        </div>
 
-            <div class="nav-actions">
-                <a href="#contacto" class="btn-primary-pill">Agendar <span>↗</span></a>
-                <button class="hamburger" id="hamburger" aria-label="Abrir menú">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </nav>
-
-        <button id="theme-toggle" class="theme-btn-floating" aria-label="Cambiar tema">
-            <span class="theme-icon">☀</span>
-        </button>
-    </header>
-
-    <main class="content-wrapper">
-
-        <!-- HERO -->
-        <section id="hero" class="section hero-section">
-            <div class="hero-grid">
-                <div class="hero-main">
-                    <div class="eyebrow reveal">
-                        <span class="eyebrow-line"></span>
-                        <span>SONGWRITER / CREATIVE STUDIO</span>
-                        <!-- <span class="eyebrow-index">001</span> -->
-                    </div>
-
-                    <h1 class="hero-title reveal">
-                        <span>SONG</span>
-                        <span class="outline-word">WRI</span>
-                        <span>TER<span class="title-dot">.</span></span>
-                    </h1>
-
-                    <div class="hero-copy reveal">
-                        <p class="hero-lead">Escribo canciones que <em>se sienten</em><br class="desktop-only"> antes de entenderse.</p>
-                        <p class="hero-description">Songwriting, producción conceptual e interfaces digitales con una misma obsesión: crear algo que permanezca.</p>
-                    </div>
-
-                    <div class="hero-cta-group reveal">
-                        <a href="mailto:juan_nicoc@hotmail.com" class="btn-hero-primary">Hablemos <span>↗</span></a>
-                        <a href="#proceso" class="btn-hero-secondary"><span class="play-mini">↓</span> EXPLORAR STUDIO</a>
-                    </div>
-                </div>
-
-                <div class="hero-side reveal">
-                    <div class="side-vertical">EMOCIÓN / FRECUENCIA / MEMORIA</div>
-                    <div class="hero-side-card">
-                        <span class="side-label">CURRENT STATE</span>
-                        <strong>CREATING</strong>
-                        <span class="pulse"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-bottom reveal">
-                <div class="hero-footnote">
-                    <span>MODELOS DE COLABORACIÓN FLEXIBLES</span>
-                    <span class="line"></span>
-                    <span>SIN CONTRATOS ANUALES</span>
-                </div>
-
-                <div class="metrics">
-                    <div class="metric-card">
-                        <span class="metric-label">Reproducciones globales</span>
-                        <strong>+1M</strong>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-label">Retención sonora</span>
-                        <strong>3.4<span>x</span></strong>
-                        <small>Promedio en charts</small>
-                    </div>
-                    <div class="metric-card">
-                        <span class="metric-label">Créditos</span>
-                        <strong>100<span>x</span></strong>
-                        <small>Songwriter</small>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PROCESO -->
-        <section id="proceso" class="section process-section">
-            <div class="section-meta reveal">
-                <span>02</span>
-                <span>EL PROCESO</span>
-                <span>FROM FEELING TO FORM</span>
-            </div>
-
-            <div class="process-intro reveal">
-                <p class="section-kicker">SONGWRITING / CREATIVE DIRECTION</p>
-                <h2>Una canción no se fabrica.<br><em>se encuentra.</em></h2>
-                <p class="process-manifesto">Del primer impulso a la última palabra: convierto emociones, imágenes y melodías en canciones con identidad.</p>
-            </div>
-
-            <div class="process-rail">
-                <div class="process-line"></div>
-
-                <article class="process-stage reveal">
-                    <div class="stage-index">01</div>
-                    <div class="stage-main">
-                        <span class="stage-tag">ORIGEN</span>
-                        <h3>SENTIR</h3>
-                        <p>Todo empieza con una emoción. Una conversación, una noche, una imagen o una frase que todavía no sabe que será canción.</p>
-                        <div class="stage-keywords"><span>EMOCIÓN</span><span>ATMÓSFERA</span><span>IDEA</span></div>
-                    </div>
-                    <div class="stage-mark">01 / 03</div>
-                </article>
-
-                <article class="process-stage reveal">
-                    <div class="stage-index">02</div>
-                    <div class="stage-main">
-                        <span class="stage-tag">ESCRITURA</span>
-                        <h3>ESCRIBIR</h3>
-                        <p>La emoción toma forma: concepto, hook, melodía, verso y ritmo se ordenan hasta encontrar una voz propia.</p>
-                        <div class="stage-keywords"><span>HOOK</span><span>MELODÍA</span><span>LETRA</span></div>
-                    </div>
-                    <div class="stage-mark">02 / 03</div>
-                </article>
-
-                <article class="process-stage reveal">
-                    <div class="stage-index">03</div>
-                    <div class="stage-main">
-                        <span class="stage-tag">IDENTIDAD</span>
-                        <h3>CONSTRUIR</h3>
-                        <p>La canción encuentra su universo sonoro. Producción, textura y detalle hasta que cada elemento tenga una razón.</p>
-                        <div class="stage-keywords"><span>SONIDO</span><span>TEXTURA</span><span>MEMORIA</span></div>
-                    </div>
-                    <div class="stage-mark">03 / 03</div>
-                </article>
-            </div>
-
-            <div class="process-footer reveal">
-                <span>LETRA / MELODÍA / CONCEPTO / PRODUCCIÓN</span>
-                <span class="process-footer-line"></span>
-                <span>JUAN CREATIVE STUDIO</span>
-            </div>
-        </section>
-
-        <!-- LETRAS -->
-        <section id="letras" class="section lyrics-section">
-            <div class="section-meta reveal">
-                <span>03</span>
-                <span>VERSOS & CRÉDITOS</span>
-                <span>WORDS HAVE WEIGHT</span>
-            </div>
-
-            <div class="lyrics-layout">
-                <div class="lyrics-title reveal">
-                    <span>WORDS</span>
-                    <span class="outline-word">THAT</span>
-                    <span>STAY.</span>
-                </div>
-
-                <div class="typing-container reveal">
-                    <span class="typing-prefix">“</span>
-                    <span class="typing-text" id="typing-text"></span>
-                    <span class="cursor-blink">|</span>
-                    <span class="typing-prefix">”</span>
-                </div>
-            </div>
-
-            <div class="lyrics-bottom reveal">
-                <span>LETRA / MELODÍA / CONCEPTO</span>
-                <span class="lyrics-line"></span>
-                <span>JUAN CREATIVE STUDIO</span>
-            </div>
-        </section>
-
-        <!-- CONTACTO -->
-        <section id="contacto" class="section contact-section">
-            <div class="section-meta reveal">
-                <span>04</span>
-                <span>CONECTAR</span>
-                <span>LET'S MAKE NOISE</span>
-            </div>
-
-            <div class="contact-content reveal">
-                <p class="section-kicker">SI TIENES UNA IDEA, YA TENEMOS EL PRIMER ACORDE.</p>
-                <h2>LET'S<br><span>CREATE.</span></h2>
-                <a href="mailto:juan_nicoc@hotmail.com" class="contact-mail">juan_nicoc@hotmail.com <span>↗</span></a>
-            </div>
-
-            <div class="social-links reveal">
-                <a href="https://open.spotify.com/user/juankz24?si=3075899adc7e4e14" target="_blank" rel="noopener" class="social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-                <a href="https://www.instagram.com/juancc.u/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-            </div>
-        </section>
-
-        <!-- SPOTIFY -->
-        <div class="spotify-floating-wrapper" id="spotify-widget">
-            <button class="spotify-toggle-btn" id="spotify-toggle" aria-label="Abrir reproductor de Spotify">
-                <span class="drag-handle" aria-hidden="true">⋮⋮</span>
-                <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.52 17.34c-.24.36-.72.48-1.08.24-2.94-1.8-6.66-2.22-11.04-1.2-.42.12-.84-.12-.96-.54-.12-.42.12-.84.54-.96 4.8-1.08 8.88-.6 12.12 1.38.42.24.54.66.42 1.08zm1.44-3.3c-.3.42-.84.6-1.32.3-3.36-2.04-8.46-2.64-12.42-1.44-.48.12-.96-.18-1.08-.6-.12-.48.18-.96.6-1.08 4.56-1.38 10.2-.72 13.98 1.56.42.24.54.84.24 1.26zm.12-3.42C15.06 8.4 8.64 8.16 4.62 9.36c-.6.18-1.2-.18-1.38-.78-.18-.6.18-1.2.78-1.38 4.68-1.38 11.7-1.08 15.84 1.38.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.2.48z"/>
-                </svg>
-                <span>Spotify</span>
+        <div class="nav-actions">
+            <a href="#contacto" class="btn-primary-pill">Agendar <span>↗</span></a>
+            <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-controls="nav-links" aria-expanded="false">
+                <span></span><span></span><span></span>
             </button>
-            <div class="spotify-card">
-                <div class="spotify-card-header">
-                    <span>NOW PLAYING</span>
-                    <button class="spotify-close-btn" id="spotify-close" aria-label="Minimizar">✕</button>
-                </div>
-                <iframe src="https://open.spotify.com/embed/playlist/22cDn8Z4ClfBMBU1RwWfDn?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </nav>
+
+    <button id="theme-toggle" class="theme-btn-floating" type="button" aria-label="Cambiar a modo claro" aria-pressed="false">
+        <span class="theme-icon" aria-hidden="true">☀</span>
+    </button>
+</header>
+
+<main class="content-wrapper">
+
+<section id="hero" class="section hero-section">
+    <div class="hero-grid">
+        <div class="hero-main">
+            <div class="eyebrow reveal">
+                <span class="eyebrow-line"></span>
+                <span>SONGWRITER / CREATIVE STUDIO</span>
+            </div>
+
+            <h1 class="hero-title reveal">
+                <span>SONG</span>
+                <span class="outline-word">WRI</span>
+                <span>TER<span class="title-dot">.</span></span>
+            </h1>
+
+            <div class="hero-copy reveal">
+                <p class="hero-lead">Escribo canciones que <em>se sienten</em><br class="desktop-only"> antes de entenderse.</p>
+                <p class="hero-description">Songwriting, producción conceptual e interfaces digitales con una misma obsesión: crear algo que permanezca.</p>
+            </div>
+
+            <div class="hero-cta-group reveal">
+                <a href="mailto:juan_nicoc@hotmail.com" class="btn-hero-primary">Hablemos <span>↗</span></a>
+                <a href="#proceso" class="btn-hero-secondary"><span class="play-mini">↓</span> EXPLORAR STUDIO</a>
             </div>
         </div>
-    </main>
 
-    <footer class="footer">
-        <span>© 2026 JUANC CREATIVE STUDIO</span>
-        <span>EMOCIÓN SOBRE RUIDO.</span>
-        <span>PROFUNDIDAD SOBRE ALCANCE.</span>
-    </footer>
+        <div class="hero-side reveal">
+            <div class="side-vertical">EMOCIÓN / FRECUENCIA / MEMORIA</div>
+            <div class="hero-side-card">
+                <span class="side-label">CURRENT STATE</span>
+                <strong>CREATING</strong>
+                <span class="pulse"></span>
+            </div>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <div class="hero-bottom reveal">
+        <div class="hero-footnote">
+            <span>MODELOS DE COLABORACIÓN FLEXIBLES</span>
+            <span class="line"></span>
+            <span>SIN CONTRATOS ANUALES</span>
+        </div>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <span class="metric-label">Reproducciones globales</span>
+                <strong>+1M</strong>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Retención sonora</span>
+                <strong>3.4<span>x</span></strong>
+                <small>Promedio en charts</small>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Créditos</span>
+                <strong>100<span>x</span></strong>
+                <small>Songwriter</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="proceso" class="section process-section">
+    <div class="section-meta reveal">
+        <span>02</span><span>EL PROCESO</span><span>FROM FEELING TO FORM</span>
+    </div>
+
+    <div class="process-intro reveal">
+        <div>
+            <p class="section-kicker">SONGWRITING / CREATIVE DIRECTION</p>
+            <h2>Una canción no se fabrica.<br><em>se encuentra.</em></h2>
+        </div>
+        <p class="process-manifesto">Del primer impulso a la última palabra: convierto emociones, imágenes y melodías en canciones con identidad.</p>
+    </div>
+
+    <div class="process-rail">
+        <div class="process-line" aria-hidden="true"></div>
+
+        <article class="process-stage reveal">
+            <div class="stage-index">01</div>
+            <div class="stage-main">
+                <span class="stage-tag">ORIGEN</span>
+                <h3>SENTIR</h3>
+                <p>Todo empieza con una emoción. Una conversación, una noche, una imagen o una frase que todavía no sabe que será canción.</p>
+                <div class="stage-keywords"><span>EMOCIÓN</span><span>ATMÓSFERA</span><span>IDEA</span></div>
+            </div>
+            <div class="stage-mark">01 / 03</div>
+        </article>
+
+        <article class="process-stage reveal">
+            <div class="stage-index">02</div>
+            <div class="stage-main">
+                <span class="stage-tag">ESCRITURA</span>
+                <h3>ESCRIBIR</h3>
+                <p>La emoción toma forma: concepto, hook, melodía, verso y ritmo se ordenan hasta encontrar una voz propia.</p>
+                <div class="stage-keywords"><span>HOOK</span><span>MELODÍA</span><span>LETRA</span></div>
+            </div>
+            <div class="stage-mark">02 / 03</div>
+        </article>
+
+        <article class="process-stage reveal">
+            <div class="stage-index">03</div>
+            <div class="stage-main">
+                <span class="stage-tag">IDENTIDAD</span>
+                <h3>CONSTRUIR</h3>
+                <p>La canción encuentra su universo sonoro. Producción, textura y detalle hasta que cada elemento tenga una razón.</p>
+                <div class="stage-keywords"><span>SONIDO</span><span>TEXTURA</span><span>MEMORIA</span></div>
+            </div>
+            <div class="stage-mark">03 / 03</div>
+        </article>
+    </div>
+
+    <div class="process-footer reveal">
+        <span>LETRA / MELODÍA / CONCEPTO / PRODUCCIÓN</span>
+        <span class="process-footer-line"></span>
+        <span>JUAN CREATIVE STUDIO</span>
+    </div>
+</section>
+
+<section id="letras" class="section lyrics-section">
+    <div class="section-meta reveal">
+        <span>03</span><span>VERSOS &amp; CRÉDITOS</span><span>WORDS HAVE WEIGHT</span>
+    </div>
+
+    <div class="lyrics-layout">
+        <div class="lyrics-title reveal">
+            <span>WORDS</span>
+            <span class="outline-word">THAT</span>
+            <span>STAY.</span>
+        </div>
+
+        <div class="typing-container reveal" aria-live="polite">
+            <span class="typing-prefix">“</span>
+            <span class="typing-text" id="typing-text"></span>
+            <span class="cursor-blink" aria-hidden="true">|</span>
+            <span class="typing-prefix">”</span>
+        </div>
+    </div>
+
+    <div class="lyrics-bottom reveal">
+        <span>LETRA / MELODÍA / CONCEPTO</span>
+        <span class="lyrics-line"></span>
+        <span>JUAN CREATIVE STUDIO</span>
+    </div>
+</section>
+
+<section id="contacto" class="section contact-section">
+    <div class="section-meta reveal">
+        <span>04</span><span>CONECTAR</span><span>LET'S MAKE NOISE</span>
+    </div>
+
+    <div class="contact-content reveal">
+        <p class="section-kicker">SI TIENES UNA IDEA, YA TENEMOS EL PRIMER ACORDE.</p>
+        <h2>LET'S<br><span>CREATE.</span></h2>
+        <a href="mailto:juan_nicoc@hotmail.com" class="contact-mail">Escribeme<span>↗</span></a>
+    </div>
+
+    <div class="social-links reveal" aria-label="Redes sociales">
+        <a href="https://open.spotify.com/user/juankz24?si=3075899adc7e4e14" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify" aria-hidden="true"></i></a>
+        <a href="https://www.instagram.com/juancc.u/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+        <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+    </div>
+</section>
+
+<div class="spotify-floating-wrapper" id="spotify-widget">
+    <button class="spotify-toggle-btn" id="spotify-toggle" type="button" aria-label="Abrir reproductor de Spotify" aria-expanded="false">
+        <span class="drag-handle" aria-hidden="true">⋮⋮</span>
+        <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.52 17.34c-.24.36-.72.48-1.08.24-2.94-1.8-6.66-2.22-11.04-1.2-.42.12-.84-.12-.96-.54-.12-.42.12-.84.54-.96 4.8-1.08 8.88-.6 12.12 1.38.42.24.54.66.42 1.08zm1.44-3.3c-.3.42-.84.6-1.32.3-3.36-2.04-8.46-2.64-12.42-1.44-.48.12-.96-.18-1.08-.6-.12-.48.18-.96.6-1.08 4.56-1.38 10.2-.72 13.98 1.56.42.24.54.84.24 1.26zm.12-3.42C15.06 8.4 8.64 8.16 4.62 9.36c-.6.18-1.2-.18-1.38-.78-.18-.6.18-1.2.78-1.38 4.68-1.38 11.7-1.08 15.84 1.38.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.2.48z"/>
+        </svg>
+        <span>Spotify</span>
+    </button>
+
+    <div class="spotify-card">
+        <div class="spotify-card-header">
+            <span>NOW PLAYING</span>
+            <button class="spotify-close-btn" id="spotify-close" type="button" aria-label="Minimizar">✕</button>
+        </div>
+        <iframe src="https://open.spotify.com/embed/playlist/22cDn8Z4ClfBMBU1RwWfDn?utm_source=generator&amp;theme=0" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Playlist de Spotify"></iframe>
+    </div>
+</div>
+
+</main>
+
+<footer class="footer">
+    <span>© 2026 LATITUD CERO CREATIVE STUDIO</span>
+    <span>MUSIC STUDIO.</span>
+    <span>WRITING MUSIC.</span>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
